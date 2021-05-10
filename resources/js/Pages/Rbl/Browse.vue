@@ -4,7 +4,6 @@
             <div class="col-12 mx-auto">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        2
                         <inertia-link v-for="list in this.lists" :href="this.route('rbl.browse', { 'list': list})" @click="$event.target.blur();" type="button" class="btn mr-5"  :class="list === showList ? 'btn-primary' : 'btn-outline-secondary'">
                             {{ list }}
                         </inertia-link>

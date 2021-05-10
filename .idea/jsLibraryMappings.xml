@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="file://$PROJECT_DIR$/rbllaravel8/rbl" libraries="{rbllaravel8/rbllaravel8/rbl/node_modules}" />
+    <file url="PROJECT" libraries="{rbllaravel8/rbllaravel8/rbl/node_modules}" />
+  </component>
+</project>

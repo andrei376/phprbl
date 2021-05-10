@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/phprbl.iml" filepath="$PROJECT_DIR$/.idea/phprbl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/rbllaravel8.iml" filepath="$PROJECT_DIR$/.idea/rbllaravel8.iml" />
     </modules>
   </component>
 </project>
