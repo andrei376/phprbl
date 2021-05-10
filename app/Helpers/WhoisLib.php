@@ -201,12 +201,14 @@ class WhoisLib
 
         $data['cidr0_cidrs'] = $data['cidr0_cidrs'] ?? [];
 
-        $ipVersion = $data['ipVersion'];
-
         $cidr = [];
 
-        foreach ($data['cidr0_cidrs'] as $prefix) {
-            $cidr[] = $prefix[$ipVersion.'prefix'].'/'.$prefix['length'];
+        if (isset($data['ipVersion'])) {
+            $ipVersion = $data['ipVersion'];
+
+            foreach ($data['cidr0_cidrs'] as $prefix) {
+                $cidr[] = $prefix[$ipVersion . 'prefix'] . '/' . $prefix['length'];
+            }
         }
 
         $cidrStr = implode(', ', $cidr);
