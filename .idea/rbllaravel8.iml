@@ -134,6 +134,7 @@
       <excludeFolder url="file://$MODULE_DIR$/rbllaravel8/rbl/vendor/jean85/pretty-package-versions" />
       <excludeFolder url="file://$MODULE_DIR$/rbllaravel8/rbl/vendor/mongodb/mongodb" />
       <excludeFolder url="file://$MODULE_DIR$/rbllaravel8/rbl/vendor/jenssegers/mongodb" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

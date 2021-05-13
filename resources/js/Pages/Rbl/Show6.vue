@@ -4,7 +4,7 @@
             <div class="col-12">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        <div class="position-fixed bg-light shadow border-bottom" style="z-index: 1;">
+                        <div class="position-fixed bg-light shadow border-bottom" style="z-index: 4;">
                             <h5 class="m-0">{{ this.__('List') }}: {{ list }}, IP: <span :class="cidrInfo === whoisData.range ? 'text-success' : 'text-danger'">{{ cidrInfo }}{{ hostnameInfo }}</span></h5>
                         </div>
                         <br>
