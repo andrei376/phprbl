@@ -201,6 +201,7 @@
             method: 'getStats'
         },
         beforeUnmount() {
+            eventBus.all.delete('refreshRblStats');
             this.$cron.stop('getStats');
         }
     }
