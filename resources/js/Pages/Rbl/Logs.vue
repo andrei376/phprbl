@@ -134,7 +134,7 @@ export default {
         readRow(id) {
             axios.post(this.route('log.read', id)).then(function() {
                 this.$noty.success("Log marked read.");
-                //eventBus.emit('refreshRblStats');
+                eventBus.emit('refreshRblStats');
                 this.fetchData();
             }.bind(this)).catch(() => {
                 this.$noty.error('Error marking log read.', {
@@ -146,7 +146,7 @@ export default {
             if (confirm('Are you sure you want to delete this log?')) {
                 axios.delete(this.route('log.delete', id)).then(function () {
                     this.$noty.warning("Log deleted.");
-                    //eventBus.emit('refreshRblStats');
+                    eventBus.emit('refreshRblStats');
                     this.fetchData();
                 }.bind(this)).catch(() => {
                     this.$noty.error('Error deleting log.', {

@@ -388,8 +388,6 @@ export default {
                 this.$noty.success("Information saved.");
                 this.$page.props.ipInfo = response.data;
 
-                console.log('delete finished');
-
                 eventBus.emit('refreshRblStats');
             }.bind(this)).catch(() => {
                 this.$noty.error(this.__('[Error saving information.]'), {
