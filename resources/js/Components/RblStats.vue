@@ -192,7 +192,7 @@
         mounted: function() {
             this.getStats();
             eventBus.on('refreshRblStats', () => {
-                // console.log('event refreshRblStats');
+                console.log('event refreshRblStats');
                 this.getStats();
             });
         },
