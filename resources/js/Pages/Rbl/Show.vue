@@ -388,7 +388,7 @@ export default {
                 this.$noty.success("Information saved.");
                 this.$page.props.ipInfo = response.data;
 
-                eventBus.emit('refreshRblStats');
+                //eventBus.emit('refreshRblStats');
             }.bind(this)).catch(() => {
                 this.$noty.error(this.__('[Error saving information.]'), {
                     modal: true
