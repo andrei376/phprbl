@@ -263,7 +263,7 @@ class WhoisLib
 
             'date' => now(),
 
-            'inetnum' => $inetnum,
+            'inetnum' => substr($inetnum, 0, 190),
             'range' => $range,
             'netname' => $netname,
             'country' => $country,
