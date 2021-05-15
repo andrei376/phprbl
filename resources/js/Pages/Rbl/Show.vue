@@ -310,7 +310,7 @@ export default {
                 this.$noty.success("Information saved.");
                 this.$page.props.ipInfo = response.data;
 
-                //eventBus.emit('refreshRblStats');
+                eventBus.emit('refreshRblStats');
                 this.whoisLoading = false;
                 this.checkLoading = false;
             }.bind(this)).catch(() => this.whoisLoading = false);
@@ -348,7 +348,6 @@ export default {
                 this.ipLoading = false;
             }.bind(this)).catch((error) => {
                 if (error.response.data.error) {
-                    // alert( error.response.data.error );
                     this.$noty.error(error.response.data.error, {
                         modal: true
                     });
@@ -372,7 +371,6 @@ export default {
                 this.moveLoading = false;
             }.bind(this)).catch(error => {
                 if (error.response.data.error) {
-                    //alert(error.response.data.error);
                     this.$noty.error(error.response.data.error, {
                         modal: true
                     });
