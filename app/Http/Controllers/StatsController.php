@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -164,7 +165,7 @@ class StatsController extends Controller
         return response()->json($data);
     }
 
-    public function syslog(Request $request, string $iplong, int $mask)
+    public function syslog(Request $request, string $iplong, int $mask): AnonymousResourceCollection
     {
         $ipv6 = false;
 
