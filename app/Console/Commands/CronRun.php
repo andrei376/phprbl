@@ -1482,7 +1482,7 @@ class CronRun extends Command
     {
         //run this only 1/day
         if (Cache::get('checkHits')) {
-            $this->line(__('[Already ran checkHits.exit.]'));
+            //$this->line(__('[Already ran checkHits.exit.]'));
             return true;
         }
 
@@ -1521,7 +1521,6 @@ class CronRun extends Command
 
         Cache::put('checkHits', true, now()->addDays(1));
 
-        return false;
         return true;
     }
 
