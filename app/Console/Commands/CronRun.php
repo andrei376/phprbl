@@ -1509,7 +1509,7 @@ class CronRun extends Command
                 })
                 ->get();
 
-            $this->line('res='. print_r(count($result->toArray()), true));
+            $this->line('res '.$list->name.'='. print_r(count($result->toArray()), true));
         }
 
 
