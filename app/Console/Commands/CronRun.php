@@ -1516,12 +1516,15 @@ class CronRun extends Command
                 ->update(['checked' => 0]);
 
             // $this->line('res '.$list->name.'='. print_r(count($result->toArray()), true));
-            $this->line('to check '.$list->name.'='. print_r($result, true));
+
+            if ($result > 0) {
+                $this->line('to check ' . $list->name . '=' . print_r($result, true));
+            }
         }
 
         //Cache::put('checkHits', true, now()->addDays(1));
 
-        return false;
+        // return false;
         return true;
     }
 
