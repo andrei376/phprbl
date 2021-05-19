@@ -1521,6 +1521,7 @@ class CronRun extends Command
 
         Cache::put('checkHits', true, now()->addDays(1));
 
+        return false;
         return true;
     }
 
