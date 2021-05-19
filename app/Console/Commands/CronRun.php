@@ -1486,10 +1486,10 @@ class CronRun extends Command
     private function checkHits(): bool
     {
         //run this only 1/day
-        /*if (Cache::get('checkHits')) {
-            $this->line(__('[Already ran checkHits.exit.]'));
+        if (Cache::get('checkHits')) {
+            // $this->line(__('[Already ran checkHits.exit.]'));
             return true;
-        }*/
+        }
 
         $intervalLastCheck = 180;//180=6 months    -- last checked $months ago
         $intervalAdded = 4;//4 years     -- added $years ago
@@ -1527,7 +1527,7 @@ class CronRun extends Command
             }
         }
 
-        //Cache::put('checkHits', true, now()->addDays(1));
+        Cache::put('checkHits', true, now()->addDays(1));
 
         return true;
     }
