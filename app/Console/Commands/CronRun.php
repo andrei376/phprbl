@@ -1486,7 +1486,7 @@ class CronRun extends Command
             // return true;
         }
 
-        $intervalLastCheck = 209;//180=6 months ;  start=210, end=180
+        $intervalLastCheck = 199;//180=6 months ;  start=210, end=180
         $intervalAdded = 7;//4 years ; start=7, end=4
         $intervalHits = 3;//3 years
 
