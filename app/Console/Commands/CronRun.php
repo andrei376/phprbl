@@ -1486,7 +1486,7 @@ class CronRun extends Command
             return true;
         }
 
-        $intervalLastCheck = 6;//6 months
+        $intervalLastCheck = 210;//180=6 months
         $intervalAdded = 7;//4 years
         $intervalHits = 3;//3 years
 
@@ -1503,7 +1503,7 @@ class CronRun extends Command
 
             $result = $model::
                 where('checked', 1)
-                ->where('last_check', '<', DB::raw('DATE_SUB(NOW(),INTERVAL '.$intervalLastCheck.' MONTH)'))
+                ->where('last_check', '<', DB::raw('DATE_SUB(NOW(),INTERVAL '.$intervalLastCheck.' DAY)'))
                 ->where('date_added', '<', DB::raw('DATE_SUB(NOW(),INTERVAL '.$intervalAdded.' YEAR)'))
                 ->leftJoinSub($latestHits, 'latest_hits', function ($join) {
                     $join->on('id', '=', 'latest_hits.list_id');
