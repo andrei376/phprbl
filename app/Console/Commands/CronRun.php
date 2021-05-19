@@ -1478,6 +1478,11 @@ class CronRun extends Command
         return true;
     }
 
+    /**
+     * to check old ip with no recent hits
+     *
+     * @return bool
+     */
     private function checkHits(): bool
     {
         //run this only 1/day
@@ -1486,9 +1491,9 @@ class CronRun extends Command
             return true;
         }*/
 
-        $intervalLastCheck = 199;//180=6 months ;  start=210, end=180
-        $intervalAdded = 7;//4 years ; start=7, end=4
-        $intervalHits = 3;//3 years
+        $intervalLastCheck = 199;//180=6 months ;  start=210, end=180    -- last checked $months ago
+        $intervalAdded = 6;//4 years ; start=7, end=4    -- added $years ago
+        $intervalHits = 3;//3 years -- no hits in last 3 years
 
         //get lists
         $lists = DefineList::select(['name'])->get();
