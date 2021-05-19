@@ -851,7 +851,9 @@ class CronRun extends Command
 
         $black = !$this->checkBlack();
 
-        if ($debug || $black) {
+        $hits = !$this->checkHits();
+
+        if ($debug || $black || $hits) {
             $time_end = microtime(true);
             $time = round($time_end - $time_start, 4);
 
@@ -1473,6 +1475,47 @@ class CronRun extends Command
 
         //$this->line( 'black found='.print_r($rows, true));
 
+        return true;
+    }
+
+    private function checkHits(): bool
+    {
+        //run this only 1/day
+        if (Cache::get('checkHits')) {
+            $this->line(__('[Already ran checkHits.exit.]'));
+            return true;
+        }
+
+        //get lists
+        $lists = DefineList::select(['name'])->get();
+
+        foreach ($lists as $list) {
+            $model = app('App\Models\\' . $list->name);
+
+            $latestHits = Hit::
+                select('list_id', DB::raw('MAX(created_at) as last_hit_created_at'))
+                ->where('list', 'App\Models\\'.$list->name)
+                ->groupBy('list', 'list_id');
+
+            $result = $model::
+                where('checked', 1)
+                ->where('last_check', '<', DB::raw('DATE_SUB(NOW(),INTERVAL 6 MONTH)'))
+                ->leftJoinSub($latestHits, 'latest_hits', function ($join) {
+                    $join->on('id', '=', 'latest_hits.list_id');
+                })
+                ->where(function($query){
+                    $query->WhereNull('latest_hits.last_hit_created_at')
+                        ->orWhere('latest_hits.last_hit_created_at', '<', DB::raw('DATE_SUB(NOW(), INTERVAL 3 YEAR)'));
+                })
+                ->get();
+
+            $this->line('res='. print_r(count($result->toArray()), true));
+        }
+
+
+        //Cache::put('checkHits', true, now()->addDays(1));
+
+        return false;
         return true;
     }
 
