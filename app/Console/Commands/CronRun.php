@@ -1497,9 +1497,9 @@ class CronRun extends Command
             $model = app('App\Models\\' . $list->name);
 
             $latestHits = Hit::
-                select('list_id', DB::raw('MAX(created_at) as last_hit_created_at'))
+                select('list_id', DB::raw('MAX(DATE(CONCAT_WS("-", `year`, `month`,`day`))) as last_hit_created_at'))
                 ->where('list', 'App\Models\\'.$list->name)
-                ->groupBy('list', 'list_id');
+                ->groupBy('list_id');
 
             $result = $model::
                 where('checked', 1)
@@ -1513,8 +1513,10 @@ class CronRun extends Command
                         ->orWhere('latest_hits.last_hit_created_at', '<', DB::raw('DATE_SUB(NOW(), INTERVAL '.$intervalHits.' YEAR)'));
                 })
                 ->get();
+                //->update(['checked' => 0]);
 
             $this->line('res '.$list->name.'='. print_r(count($result->toArray()), true));
+            // $this->line('res '.$list->name.'='. print_r($result, true));
         }
 
 
