@@ -1491,8 +1491,8 @@ class CronRun extends Command
             return true;
         }*/
 
-        $intervalLastCheck = 199;//180=6 months ;  start=210, end=180    -- last checked $months ago
-        $intervalAdded = 6;//4 years ; start=7, end=4    -- added $years ago
+        $intervalLastCheck = 180;//180=6 months ;  start=210, end=180    -- last checked $months ago
+        $intervalAdded = 4;//4 years ; start=7, end=4    -- added $years ago
         $intervalHits = 3;//3 years -- no hits in last 3 years
 
         //get lists
@@ -1517,19 +1517,19 @@ class CronRun extends Command
                     $query->WhereNull('latest_hits.last_hit_created_at')
                         ->orWhere('latest_hits.last_hit_created_at', '<', DB::raw('DATE_SUB(NOW(), INTERVAL '.$intervalHits.' YEAR)'));
                 })
-                // ->get();
-                ->update(['checked' => 0]);
+                ->get();
+                // ->update(['checked' => 0]);
 
-            // $this->line('res '.$list->name.'='. print_r(count($result->toArray()), true));
+            $this->line('res '.$list->name.'='. print_r(count($result->toArray()), true));
 
-            if ($result > 0) {
+            if (is_numeric($result) && $result > 0) {
                 $this->line('to check ' . $list->name . '=' . print_r($result, true));
             }
         }
 
         //Cache::put('checkHits', true, now()->addDays(1));
 
-        // return false;
+        return false;
         return true;
     }
 
