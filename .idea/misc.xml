@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/rbllaravel8/rbl/storage/logs/cron.log" />
-    <file url="file://$PROJECT_DIR$/rbllaravel8/rbl/storage/logs/laravel.log" />
+    <file url="file://$PROJECT_DIR$/storage/logs/cron.log" />
+    <file url="file://$PROJECT_DIR$/storage/logs/laravel-2021-05-19.log" />
   </component>
   <component name="WebPackConfiguration">
     <option name="mode" value="AUTO" />

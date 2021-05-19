@@ -1486,6 +1486,10 @@ class CronRun extends Command
             return true;
         }
 
+        $intervalLastCheck = 6;//6 months
+        $intervalAdded = 7;//4 years
+        $intervalHits = 3;//3 years
+
         //get lists
         $lists = DefineList::select(['name'])->get();
 
@@ -1499,13 +1503,14 @@ class CronRun extends Command
 
             $result = $model::
                 where('checked', 1)
-                ->where('last_check', '<', DB::raw('DATE_SUB(NOW(),INTERVAL 6 MONTH)'))
+                ->where('last_check', '<', DB::raw('DATE_SUB(NOW(),INTERVAL '.$intervalLastCheck.' MONTH)'))
+                ->where('date_added', '<', DB::raw('DATE_SUB(NOW(),INTERVAL '.$intervalAdded.' YEAR)'))
                 ->leftJoinSub($latestHits, 'latest_hits', function ($join) {
                     $join->on('id', '=', 'latest_hits.list_id');
                 })
-                ->where(function($query){
+                ->where(function($query) use($intervalHits) {
                     $query->WhereNull('latest_hits.last_hit_created_at')
-                        ->orWhere('latest_hits.last_hit_created_at', '<', DB::raw('DATE_SUB(NOW(), INTERVAL 3 YEAR)'));
+                        ->orWhere('latest_hits.last_hit_created_at', '<', DB::raw('DATE_SUB(NOW(), INTERVAL '.$intervalHits.' YEAR)'));
                 })
                 ->get();
 
