@@ -382,6 +382,7 @@ export default {
             });
         },
         deleteRow(id, list) {
+            this.checkLoading = true;
             if (!confirm(this.__('[Are you sure you want to mark for deletion?]'))) return;
 
             axios.delete(this.route("rbl.destroy", {id: id, list: list})).then(function (response) {
@@ -389,6 +390,7 @@ export default {
                 this.$page.props.ipInfo = response.data;
 
                 eventBus.emit('refreshRblStats');
+                this.checkLoading = false;
             }.bind(this)).catch(() => {
                 this.$noty.error(this.__('[Error saving information.]'), {
                     modal: true
