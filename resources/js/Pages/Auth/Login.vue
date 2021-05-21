@@ -79,7 +79,7 @@
         },
 
         methods: {
-            submit() {
+            submit: function() {
                 //refresh csrf token
                 axios.get(this.route('token')).then(function() {
                     this.form
@@ -94,6 +94,13 @@
                     alert('Error');
                 });
             }
+        },
+        mounted() {
+            document.addEventListener('keyup', function(e) {
+                if (e.key === "Enter") {
+                    this.submit();
+                }
+            }.bind(this));
         }
     }
 </script>
