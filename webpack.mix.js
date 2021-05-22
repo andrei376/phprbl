@@ -28,7 +28,4 @@ mix
 
 
 mix.disableNotifications();
-
-if (mix.inProduction()) {
-    mix.version();
-}
+mix.version();
