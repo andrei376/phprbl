@@ -145,7 +145,9 @@ export default {
         deleteRow(id) {
             if (confirm('Are you sure you want to delete this log?')) {
                 axios.delete(this.route('log.delete', id)).then(function () {
-                    this.$noty.warning("Log deleted.");
+                    this.$noty.warning("Log deleted.", {
+                        killer: true
+                    });
                     eventBus.emit('refreshRblStats');
                     this.fetchData();
                 }.bind(this)).catch(() => {
