@@ -10,9 +10,9 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/register', function() {
+/*Route::get('/register', function() {
     return redirect()->route('stats.index');
-})->name('register');
+})->name('register');*/
 
 //disable REGISTER
 /*Route::get('/register', [RegisteredUserController::class, 'create'])

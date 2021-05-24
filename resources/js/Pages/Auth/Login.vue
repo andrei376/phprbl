@@ -23,17 +23,11 @@
             </label>
         </div>
 
-        <div class="flex items-center justify-between mt-4">
-            <inertia-link v-if="canRegister" :href="this.route('register')" class="text-sm text-gray-600 underline hover:text-gray-900">
-                {{ this.__('Register new account') }}
-            </inertia-link>
-
+        <div class="flex items-center justify-end mt-4">
             <inertia-link v-if="canResetPassword" :href="this.route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
                 {{ this.__('Forgot your password?') }}
             </inertia-link>
-        </div>
 
-        <div class="flex items-center justify-end mt-4">
             <breeze-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 {{ this.__('Log in') }}
             </breeze-button>
