@@ -878,7 +878,8 @@ class CronRun extends Command
             $model = app('App\Models\\' . $list->name);
 
             $toWhois = $model::
-                where('active', 1)
+                where('last_check', '<', DB::raw('DATE_SUB(NOW(),INTERVAL 1 MONTH)'))
+                ->where('active', 1)
                 ->where('checked', 0)
                 ->where('delete', 0)
                 ->orderBy('date_added', 'asc')
