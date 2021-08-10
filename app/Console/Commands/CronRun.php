@@ -853,7 +853,9 @@ class CronRun extends Command
 
         $hits = !$this->checkHits();
 
-        if ($debug || $black || $hits) {
+        $whois = !$this->checkWhois();
+
+        if ($debug || $black || $hits || $whois) {
             $time_end = microtime(true);
             $time = round($time_end - $time_start, 4);
 
@@ -865,6 +867,37 @@ class CronRun extends Command
         }
     }
 
+    private function checkWhois(): bool
+    {
+        $whoisLib = new WhoisLib();
+
+        //get lists
+        $lists = DefineList::select(['name'])->get();
+
+        foreach ($lists as $list) {
+            $model = app('App\Models\\' . $list->name);
+
+            $toWhois = $model::
+                where('active', 1)
+                ->where('checked', 0)
+                ->where('delete', 0)
+                ->orderBy('date_added', 'asc')
+                ->get();
+
+            foreach ($toWhois as $toCheck) {
+                if (is_null($toCheck)) {
+                    //nothing to do
+                    continue;
+                }
+
+                $ipWhois = $toCheck->long2ip . '/' . $toCheck->mask;
+
+                $whoisLib->searchCache($ipWhois);
+            }
+        }
+
+        return true;
+    }
     /**
      * update last_check field
      *
@@ -899,6 +932,11 @@ class CronRun extends Command
                     $ip->last_check = date('Y-m-d H:i:s');
                     $ip->checked = 0;
 
+                    $ipWhois = $ip->long2ip . '/' . $ip->mask;
+
+                    //$this->line('ip='.$ipWhois);
+
+                    $whoisLib->searchCache($ipWhois);
                     //$this->line('to save ip='. print_r($ip->toArray(), true));
 
                     try {
