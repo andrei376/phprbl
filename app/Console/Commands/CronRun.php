@@ -762,7 +762,7 @@ class CronRun extends Command
         $regexps[] = '/^ login: .* (plaintext|CRAM-MD5|plaintext\+TLS|CRAM-MD5\+TLS) User logged in SESSIONID=<.*>$/i';
         $regexps[] = '/^ SASL sql plugin trying to open db \'.*\' on host \'.*\'$/i';
         $regexps[] = '/^ STARTTLS negotiation failed: .*\]$/i';
-        $regexps[] = '/^ lost connection after (AUTH|STARTTLS|RSET|DATA \([0-9]+ bytes\)|HELO) from .*$/i';
+        $regexps[] = '/^ lost connection after (VRFY|AUTH|STARTTLS|RSET|DATA \([0-9]+ bytes\)|HELO) from .*$/i';
         $regexps[] = '/^ timeout after (AUTH|DATA|CONNECT|EHLO|RSET|END-OF-MESSAGE|MAIL|UNKNOWN|STARTTLS|DATA \([0-9]+ bytes\)) from .*\]$/i';
         $regexps[] = '/^ Can\'t query (daily|bytecode|main).*\.ping\.clamav\.net$/i';
         $regexps[] = '/^ lmtp\(.*\).*: sieve: msgid=<.*>: stored mail into mailbox \'.*\'$/i';
