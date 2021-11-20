@@ -784,6 +784,7 @@ class CronRun extends Command
         $regexps[] = '/^ Connected to db\.[a-z]+\.clamav\.net \(IP: .*\)\.$/i';
         $regexps[] = '/^ message repeated [0-9]+ times: \[ auth-worker\([0-9]+\): sql\(.*\): unknown user \]$/i';
         $regexps[] = '/^ Untrusted TLS connection established to .*:25: TLSv1\.(2|3) with cipher (TLS_AES_256_GCM_SHA384|ECDHE-RSA-AES256-GCM-SHA384) \(256/256 bits\)( key-exchange X25519 server-signature ECDSA \(P-256\) server-digest SHA256)?$/i';
+        $regexps[] = '/^ Anonymous TLS connection established to .*:25: TLSv1\.2 with cipher (ADH-AES256-GCM-SHA384) \(256/256 bits\)$/i';
         //$regexps[] = '/^ $/i';
         //$regexps[] = '/^ $/i';
         //$regexps[] = '/^ $/i';
