@@ -755,7 +755,7 @@ class CronRun extends Command
         $regexps[] = '/^ disconnect from .* (ehlo|commands)=[/0-9]+.*$/i';
         $regexps[] = '/^ SSL_accept error from .*: (Connection timed out|-1|lost connection|0|Connection reset by peer)$/i';
         $regexps[] = '/^ prepend Authentication-Results: .*; spf=(pass|none|neutral|temperror) \((mailfrom|helo|sender SPF authorized|no SPF record|SPF Temporary Error: DNS Error: exceeded max query lookup time|access neither permitted nor denied)\) smtp\.(mailfrom|helo)=.*\)$/i';
-        $regexps[] = '/^ prepend Received-SPF: (Pass|None|Neutral|Temperror) \(mailfrom|no SPF record|helo\) identity=(mailfrom|no SPF record|helo); client-ip=.*; helo=.*$/i';
+        $regexps[] = '/^ prepend Received-SPF: (Pass|None|Neutral|Temperror) \(mailfrom|no SPF record|helo|sender SPF authorized\) identity=(mailfrom|no SPF record|helo); client-ip=.*; helo=.*$/i';
         $regexps[] = '/^ [A-Z0-9]+: client=.*, sasl_method=(CRAM-MD5|DIGEST-MD5|PLAIN), sasl_username=.*$/i';
         $regexps[] = '/^ Found ip-based phishing fraud from .* in [.A-Z0-9]+$/i';
         $regexps[] = '/^ message repeated [0-9]+ times: \[ Found ip-based phishing fraud from .* in [.A-Z0-9]+\]$/i';
@@ -785,6 +785,9 @@ class CronRun extends Command
         $regexps[] = '/^ message repeated [0-9]+ times: \[ auth-worker\([0-9]+\): sql\(.*\): unknown user \]$/i';
         $regexps[] = '/^ Untrusted TLS connection established to .*:25: TLSv1\.(2|3) with cipher (TLS_AES_256_GCM_SHA384|ECDHE-RSA-AES256-GCM-SHA384) \(256/256 bits\)( key-exchange X25519 server-signature ECDSA \(P-256\) server-digest SHA256)?$/i';
         $regexps[] = '/^ Anonymous TLS connection established to .*:25: TLSv1\.2 with cipher (ADH-AES256-GCM-SHA384) \(256/256 bits\)$/i';
+        //$regexps[] = '/^ $/i';
+        //$regexps[] = '/^ $/i';
+        //$regexps[] = '/^ $/i';
         //$regexps[] = '/^ $/i';
         //$regexps[] = '/^ $/i';
         //$regexps[] = '/^ $/i';
