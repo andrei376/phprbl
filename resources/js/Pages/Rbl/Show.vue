@@ -168,6 +168,10 @@
                                     <span v-if="ipLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                     {{ this.__('Replace ip') }}
                                 </button>
+                                <button type="button" @click="$event.target.blur(); this.updateIp24();" :class="{ 'opacity-25': ipLoading }" :disabled="ipLoading" class="btn btn-sm btn-outline-secondary mt-1 ml-5">
+                                    <span v-if="ipLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    {{ this.__('Replace ip with') }} {{ this.newIp24 }}
+                                </button>
                             </div>
                         </div>
 
@@ -276,6 +280,16 @@ export default {
             moveLoading: false
         }
     },
+    computed: {
+        newIp24() {
+            let newip =   this.ipInfo.ip1 + '.'
+                        + this.ipInfo.ip2 + '.'
+                        + this.ipInfo.ip3 + '.'
+                        + '0/24';
+
+            return newip;
+        }
+    },
 
     methods: {
         checkWhois() {
@@ -330,6 +344,31 @@ export default {
                 eventBus.emit('refreshRblStats');
                 this.checkLoading = false;
             }.bind(this)).catch(() => this.checkLoading =false);
+        },
+        updateIp24() {
+            this.ipLoading = true;
+            let url = this.route('update.show4', {
+                id: this.ipInfo.id,
+                list: this.list,
+                updateIp: true
+            });
+
+            axios.post(url, { 'newIp': this.newIp24 }).then(function () {
+                window.location = this.route('rbl.show4', {
+                    id: this.ipInfo.id,
+                    list: this.list
+                });
+
+                this.ipLoading = false;
+            }.bind(this)).catch((error) => {
+                if (error.response.data.error) {
+                    this.$noty.error(error.response.data.error, {
+                        modal: true
+                    });
+                }
+
+                this.ipLoading = false;
+            });
         },
         updateIp() {
             this.ipLoading = true;
