@@ -91,7 +91,7 @@
         },
         mounted() {
             document.addEventListener('keyup', function(e) {
-                if (e.key === "Enter") {
+                if (e.key === "Enter" && document.getElementById('email').length>0) {
                     this.submit();
                 }
             }.bind(this));
