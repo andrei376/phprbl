@@ -787,6 +787,7 @@ class CronRun extends Command
         $regexps[] = '/^ Anonymous TLS connection established to .*:25: TLSv1\.2 with cipher (ADH-AES256-GCM-SHA384) \(256/256 bits\)$/i';
         // $regexps[] = '/^ [A-Z0-9]+: client=localhost.localdomain\[127\.0\.0\.1\]$/i';
         $regexps[] = '/^ [A-Z0-9]+: client=.*\[[.0-9]+\]$/i';
+        $regexps[] = '/^ [A-Z0-9]+: client=.*\[[:0-9a-f]+\]$/i';
         //$regexps[] = '/^ $/i';
         //$regexps[] = '/^ $/i';
         //$regexps[] = '/^ $/i';
