@@ -778,7 +778,7 @@ class CronRun extends Command
         $regexps[] = '/^ Message [.A-Z0-9]+ from .* has valid watermark$/i';
         $regexps[] = '/^ --- Stopped at .*$/i';
         $regexps[] = '/^ message repeated [0-9]+ times: \[ STARTTLS negotiation failed: .*\]$/i';
-        $regexps[] = '/^ improper command pipelining after (DATA|EHLO|HELO) from .*:.*$/i';
+        $regexps[] = '/^ improper command pipelining after (DATA|EHLO|HELO|RSET) from .*:.*$/i';
         $regexps[] = '/^ [A-Z0-9]+: conversation with .* timed out while receiving the initial server greeting$/i';
         $regexps[] = '/^ message repeated [0-9]+ times: \[ auth: cram-md5\(\?,.*\): Request timed out waiting for client to continue authentication \([0-9]+ secs\)\]$/i';
         $regexps[] = '/^ Connected to db\.[a-z]+\.clamav\.net \(IP: .*\)\.$/i';
