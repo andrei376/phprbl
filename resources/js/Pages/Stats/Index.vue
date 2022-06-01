@@ -21,6 +21,25 @@
                             </tbody>
                         </table>
 
+                        <table class="table table-striped table-bordered table-sm">
+                            <thead class="table-dark">
+                                <tr class="d-flex">
+                                    <th scope="col" class="col-4">{{ this.__('[Mail log]') }}</th>
+                                    <th scope="col" class="col-8">{{ this.__('[Rows in log]') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="d-flex">
+                                    <td class="col-4">Mongo</td>
+                                    <td class="col-8">{{ mongo }}</td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <td class="col-4">Elastic</td>
+                                    <td class="col-8">{{ elastic }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
                         <simple-table
                             class="mt-5"
                             :table-data="classes"
@@ -74,6 +93,8 @@
             'data',
             'ips',
             'classes',
+            'mongo',
+            'elastic',
             'laravelVersion',
             'phpVersion',
             'stats'

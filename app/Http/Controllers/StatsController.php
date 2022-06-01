@@ -120,13 +120,41 @@ class StatsController extends Controller
             }
         }
 
+        try {
+            $mongo = Syslog::count();
+        } catch (Exception $e) {
+            $mongo = 'error getting count';
+
+            Log::error(
+                __METHOD__.
+                ' error: '.$e->getMessage().
+                "\n".$e->getTraceAsString().
+                "\n\n"
+            );
+        }
+
+        try {
+            $elastic = 'not yet';
+        } catch (Exception $e) {
+            $elastic = 'error getting count';
+
+            Log::error(
+                __METHOD__.
+                ' error: '.$e->getMessage().
+                "\n".$e->getTraceAsString().
+                "\n\n"
+            );
+        }
+
         return Inertia::render('Stats/Index', [
             'data' => $data,
             'ips' => $ips,
             'classes' => $classes,
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
-            'stats' => $stats
+            'stats' => $stats,
+            'mongo' => $mongo,
+            'elastic' => $elastic,
            // 'flash' => $flash
         ]);
     }
