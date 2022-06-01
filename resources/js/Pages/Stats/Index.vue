@@ -24,14 +24,14 @@
                         <table class="table table-striped table-bordered table-sm">
                             <thead class="table-dark">
                                 <tr class="d-flex">
-                                    <th scope="col" class="col-4">{{ this.__('[Mail log]') }}</th>
-                                    <th scope="col" class="col-8">{{ this.__('[Rows in log]') }}</th>
+                                    <th scope="col" class="col-3">{{ this.__('[Mail log]') }}</th>
+                                    <th scope="col" class="col-9">{{ this.__('[Rows in log]') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr class="d-flex">
-                                    <td class="col-4">Mongo</td>
-                                    <td class="col-8">{{ mongo }}</td>
+                                    <td class="col-3">Mongo</td>
+                                    <td class="col-9">{{ mongo }}</td>
                                 </tr>
                                 <tr class="d-flex">
                                     <td class="col-4">Elastic</td>
