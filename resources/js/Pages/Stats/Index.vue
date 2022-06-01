@@ -34,8 +34,8 @@
                                     <td class="col-9">{{ mongo }}</td>
                                 </tr>
                                 <tr class="d-flex">
-                                    <td class="col-4">Elastic</td>
-                                    <td class="col-8">{{ elastic }}</td>
+                                    <td class="col-3">Elastic</td>
+                                    <td class="col-9">{{ elastic }}</td>
                                 </tr>
                             </tbody>
                         </table>
