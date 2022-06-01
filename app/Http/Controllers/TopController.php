@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Helpers\Rbl4;
 use App\Helpers\Rbl6;
 use App\Http\Resources\LogsResource;
+use App\Http\Resources\TopHitsResource;
+use App\Models\Hit;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -511,6 +513,86 @@ class TopController extends Controller
         return LogsResource::collection($data);
     }
 
+    public function topLastHit(Request $request, $showList = 'White')
+    {
+        $model = app('App\Models\\' . $showList);
+        $model = new $model();
+
+        $ipv6 = false;
+        if (stripos($showList, '6')) {
+            $ipv6 = true;
+        }
+
+
+        $searchField = 'hits.id';
+        $searchValue = '';
+        foreach ($request->input('search') as $field => $value) {
+            //
+            if (!empty($value)) {
+                switch ($field) {
+                    case 'format_cidr':
+                        if ($ipv6) {
+                            $searchField = DB::raw('CONCAT(INET6_NTOA(`iplong`),"/",`mask`)');
+                        } else {
+                            $searchField = DB::raw('CONCAT(INET_NTOA(`iplong`),"/",`mask`)');
+                        }
+                        break;
+
+                    default:
+                        $searchField = $field;
+                        break;
+                }
+                $searchValue = $value;
+            }
+        }
+
+        // DB::enableQueryLog();
+
+        try {
+            $data = Hit::
+                orderBy($request->column ?? 'hits.updated_at', $request->order ?? 'desc')
+                ->where('list', '=', 'App\\Models\\'.$showList)
+                ->select([
+                    DB::raw('@total := @total + 1 AS `index`'),
+                    DB::raw('CONCAT_WS("-", `hits`.`year`, `hits`.`month`, `hits`.`day`) AS `hit_date`'),
+                    'hits.list',
+                    'hits.list_id',
+                    'hits.count',
+                    $model->getTable().'.iplong',
+                    $model->getTable().'.mask',
+                ])
+                ->crossJoin(DB::raw("(SELECT @total := 0) AS `fakeTotal`"))
+                ->leftJoin($model->getTable(), 'hits.list_id', '=', $model->getTable().'.id')
+
+                ->where($searchField, 'like', '%'.$searchValue.'%')
+                ->paginate($request->perPage);
+        } catch (Exception $e) {
+            Log::error(
+                __METHOD__.
+                ' error: '.$e->getMessage().
+                ", line=".$e->getLine().
+                "\n"
+            );
+
+            return response('', 400);
+        }
+
+        /*Log::debug(
+            __METHOD__.
+            " query: \n".
+            print_r(DB::getQueryLog(), true).
+            "\n"
+        );*/
+
+        /*Log::debug(
+            __METHOD__.
+            " data: \n".
+            print_r($data->toArray(), true).
+            "\n"
+        );*/
+
+        return TopHitsResource::collection($data);
+    }
     public function topLastCheck(Request $request, $showList = 'White')
     {
         $model = app('App\Models\\' . $showList);

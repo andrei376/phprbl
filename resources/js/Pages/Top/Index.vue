@@ -37,6 +37,9 @@
                             <div v-if="showTop === 'Show by date added'">
                                 <top-date-added v-bind:list="showList" />
                             </div>
+                            <div v-if="showTop === 'Show by last hit'">
+                                <top-last-hit v-bind:list="showList" />
+                            </div>
                             <div v-if="showTop === 'Show by last check'">
                                 <top-last-check v-bind:list="showList" />
                             </div>
@@ -58,6 +61,7 @@
     import TopOrgname from "@/Pages/Top/TopOrgname";
     import TopDateAdded from "@/Pages/Top/TopDateAdded";
     import TopLastCheck from "@/Pages/Top/TopLastCheck";
+    import TopLastHit from "@/Pages/Top/TopLastHit";
     import TopHits from "@/Pages/Top/TopHits";
 
     export default {
@@ -71,6 +75,7 @@
             TopOrgname,
             TopDateAdded,
             TopLastCheck,
+            TopLastHit,
             TopHits
         },
         props: [
@@ -89,6 +94,7 @@
                     this.__('Show by inetnum'),
                     this.__('Show by orgname'),
                     this.__('Show by date added'),
+                    this.__('Show by last hit'),
                     this.__('Show by last check'),
                 ]
             }

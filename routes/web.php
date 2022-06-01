@@ -72,6 +72,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/toporgname/{list}', [TopController::class, 'topOrgname'])->name('top.orgname');
     Route::post('/topdateadded/{list}', [TopController::class, 'topDateAdded'])->name('top.dateadded');
     Route::post('/toplastcheck/{list}', [TopController::class, 'topLastCheck'])->name('top.lastcheck');
+    Route::post('/toplasthit/{list}', [TopController::class, 'topLastHit'])->name('top.lasthit');
     Route::post('/tophits/{list}', [TopController::class, 'topHits'])->name('top.hits');
 
     Route::get('/logs', function() {
