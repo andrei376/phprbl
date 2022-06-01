@@ -558,6 +558,7 @@ class TopController extends Controller
                     'hits.list',
                     'hits.list_id',
                     'hits.count',
+                    DB::raw("'$showList' AS `show_list`"),
                     $model->getTable().'.iplong',
                     $model->getTable().'.mask',
                 ])

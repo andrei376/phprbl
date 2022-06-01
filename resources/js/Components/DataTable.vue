@@ -37,7 +37,12 @@
                     :class="{ 'bg-blue-100' : isHover[index] }"
                 >
                     <td v-for="column in columns">
+                        <template v-if="!column.html">
                         {{ row[column.showField] }}
+                        </template>
+                        <template v-else>
+                            <span v-html="row[column.showField]"></span>
+                        </template>
                     </td>
                 </tr>
             </tbody>

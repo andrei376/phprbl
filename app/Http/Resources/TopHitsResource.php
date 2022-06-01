@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 
 class TopHitsResource extends JsonResource
 {
@@ -23,7 +24,10 @@ class TopHitsResource extends JsonResource
 
         $format_cidr = $iplong . '/' . $this->mask;
 
-
+        $format_cidr = '<a href="'.
+            URL::route($ipv6 ? 'rbl.show6' : 'rbl.show4', ['id' => $this->list_id, 'list' => $this->show_list]).
+            '">'.
+            $format_cidr.'</a>';
 
         return [
             'index' => $this->index,

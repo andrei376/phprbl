@@ -38,7 +38,8 @@ export default {
                     'class': 'w-5/12',
                     'sort': true,
                     'sortField': 'iplong',
-                    'searchField': 'format_cidr'
+                    'searchField': 'format_cidr',
+                    'html': true
                 },
                 {
                     'name': this.__('Hit date'),
