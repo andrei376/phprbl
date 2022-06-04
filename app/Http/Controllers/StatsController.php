@@ -222,7 +222,7 @@ class StatsController extends Controller
         try {
             // DB::connection('elasticsearch')->enableQueryLog();
 
-            $data = MailLog::where('client.ip', '1.1.1.0/25')->paginate(10);
+            $data = MailLog::where('client.ip', $cidrInfo)->paginate(intval($request->perPage));
             /*rawSearch([
                 "query" => [
                     "term" => [
