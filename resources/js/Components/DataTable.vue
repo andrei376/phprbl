@@ -49,7 +49,7 @@
         </table>
         <div v-if="isLoading" class="overlay-spinner spinner-border text-primary" role="status" aria-hidden="true"></div>
         <nav v-if="pagination && tableData.length > 0" class="d-flex justify-content-between">
-            <span class="d-flex" style="margin-top: 8px;"><i>{{ this.__('[Displaying :length of :total entries.]', {'length': pagination.data.length, 'total': pagination.meta.total}) }}</i></span>
+            <span class="d-flex" style="margin-top: 8px;"><i>{{ this.__('[Displaying :from - :to of :total entries.]', {'from': pagination.meta.from, 'to': pagination.meta.to, 'total': pagination.meta.total}) }}</i></span>
             <ul class="pagination justify-content-end">
                 <li class="page-item" :class="{'disabled' : currentPage === 1}">
                     <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">{{ this.__('[Previous]') }}</a>

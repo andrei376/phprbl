@@ -61,6 +61,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/stats', [StatsController::class, 'index'])->name('stats.index');
     Route::get('/stats/rbl', [StatsController::class, 'stats'])->name('stats.rbl');
     Route::get('/stats/syslog/{iplong}/{mask}', [StatsController::class, 'syslog'])->name('syslog.rbl');
+    Route::get('/stats/elastic/{iplong}/{mask}', [StatsController::class, 'elastic'])->name('elastic.rbl');
 
     Route::get('/browse/{list?}', [RblController::class, 'browse'])->name('rbl.browse');
     Route::post('/browse/{list?}', [RblController::class, 'browse'])->name('rbl.getBrowse');

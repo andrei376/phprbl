@@ -168,6 +168,7 @@ return [
          * Package Service Providers...
          */
         Jenssegers\Mongodb\MongodbServiceProvider::class,
+        PDPhilip\Elasticsearch\ElasticServiceProvider::class,
 
         /*
          * Application Service Providers...

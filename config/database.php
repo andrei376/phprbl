@@ -100,6 +100,23 @@ return [
             'password' => env('MONGO_DB_PASSWORD'),
             'options'  => []
         ],
+
+        'elasticsearch' => [
+            'driver'       => 'elasticsearch',
+            'auth_type'    => env('ES_AUTH_TYPE', 'http'), //http, cloud or api
+            'hosts'        => explode(',', env('ES_HOSTS', 'http://localhost:9200')),
+            'username'     => env('ES_USERNAME', ''),
+            'password'     => env('ES_PASSWORD', ''),
+            'cloud_id'     => env('ES_CLOUD_ID', ''),
+            'api_id'       => env('ES_API_ID', ''),
+            'api_key'      => env('ES_API_KEY', ''),
+            'ssl_cert'     => env('ES_SSL_CERT', ''),
+            'index_prefix' => false, //prefix all Laravel administered indices
+            'query_log'    => [
+                'index'      => 'laravel_query_logs', //Or false to disable query logging
+                'error_only' => false, //If false, the all queries are logged
+            ],
+        ],
     ],
 
     /*

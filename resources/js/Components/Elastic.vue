@@ -40,7 +40,9 @@
         </table>
         <div v-if="isLoading" class="overlay-spinner spinner-border text-primary" role="status" aria-hidden="true"></div>
         <nav v-if="pagination && tableData.length > 0" class="d-flex justify-content-between">
-            <span class="d-flex" style="margin-top: 8px;"><i>Displaying {{ pagination.meta.from }} - {{ pagination.meta.to }} of {{ pagination.meta.total }} entries.</i></span>
+            <span class="d-flex" style="margin-top: 8px;">
+                <i>Displaying {{ pagination.meta.from }} - {{ pagination.meta.to }} of {{ pagination.meta.total }} entries.</i>
+            </span>
             <ul class="pagination justify-content-end">
                 <li class="page-item" :class="{'disabled' : currentPage === 1}">
                     <a class="page-link" href="#" @click.prevent="$event.target.blur();changePage(currentPage - 1)">Previous</a>
@@ -59,7 +61,7 @@
 
 <script>
 export default {
-    name: "Syslog",
+    name: "Elastic",
 
     props: [
         'iplong',
@@ -107,7 +109,7 @@ export default {
         }
     },
     methods: {
-        getSyslog: function() {
+        getElastic: function() {
             this.isLoading = true;
 
             let postData = {
@@ -121,7 +123,7 @@ export default {
                 mask: this.mask
             };
 
-            axios.get(this.route('syslog.rbl', postData)).then(function(response){
+            axios.get(this.route('elastic.rbl', postData)).then(function(response){
 
                 this.rangeInfo = response.data.rangeInfo;
                 this.regexInfo = response.data.regexInfo;
@@ -143,12 +145,12 @@ export default {
             });
         },
         changePage(pageNumber) {
-            this.currentPage = pageNumber
-            this.getSyslog()
+            this.currentPage = pageNumber;
+            this.getElastic();
         },
     },
     mounted() {
-        this.getSyslog();
+        this.getElastic();
     }
 }
 </script>

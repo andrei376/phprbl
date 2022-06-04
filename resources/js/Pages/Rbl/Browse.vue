@@ -230,7 +230,7 @@
                         </table>
                         <div v-if="isLoading" class="overlay-spinner spinner-border text-primary" role="status" aria-hidden="true"></div>
                         <nav v-if="pagination && tableData.length > 0" class="d-flex justify-content-between">
-                            <span class="d-flex" style="margin-top: 8px;"><i>Displaying {{ pagination.data.length }} of {{ pagination.meta.total }} entries.</i></span>
+                            <span class="d-flex" style="margin-top: 8px;"><i>Displaying {{ pagination.meta.from }} - {{ pagination.meta.to }} of {{ pagination.meta.total }} entries.</i></span>
                             <ul class="pagination justify-content-end">
                                 <li class="page-item" :class="{'disabled' : currentPage === 1}">
                                     <a class="page-link" href="#" @click.prevent="changePage(currentPage - 1)">Previous</a>

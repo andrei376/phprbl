@@ -225,6 +225,10 @@
                             <log-hits :list="list" :id="ipInfo.id" :search-ip="ipInfo.iplong" />
                         </div>
 
+                        <div id="11elastic">
+                            <elastic :iplong="ipInfo.iplong" :mask="ipInfo.mask" />
+                        </div>
+
                         <div id="10syslog">
                             <syslog :iplong="ipInfo.iplong" :mask="ipInfo.mask" />
                         </div>
@@ -244,9 +248,11 @@ import Button from "../../Components/Button";
 import RowTable from "./RowTable";
 import LogHits from "./LogHits";
 import Syslog from "@/Pages/Rbl/Syslog";
+import Elastic from "@/Components/Elastic";
 
 export default {
     components: {
+        Elastic,
         Button,
         BreezeInput,
         BreezeLabel,
