@@ -15,4 +15,31 @@ class MailLog extends Model
     protected $connection = 'elasticsearch';
 
     protected $index  = '.ds-filebeat-*';
+
+    protected $dates = [
+        '@timestamp',
+    ];
+
+    protected $appends = [
+        'time_format',
+        'time_ago'
+    ];
+
+    public function getTimeFormatAttribute()
+    {
+        $field = "@timestamp";
+        if (is_null($this->$field)) {
+            return null;
+        }
+        return $this->$field->format('d F Y, H:i:s');
+    }
+
+    public function getTimeAgoAttribute()
+    {
+        $field = "@timestamp";
+        if (is_null($this->$field)) {
+            return null;
+        }
+        return $this->$field->diffForHumans();
+    }
 }

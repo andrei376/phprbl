@@ -22,16 +22,9 @@
                         ({{ row.time_ago }})
                     </td>
                     <td>
-                        {{ row.sys }}
+                        {{ row.host.hostname }}
                     </td>
                     <td>
-<!--                        <div style="overflow: auto; overflow-x: scroll;max-width: 1300px;">
-                            <pre>{{ row }}</pre>
-                        </div>
-                        <samp>
-                            {{ row.msg }}
-                        </samp>
-                        <br>-->
                         <samp v-html="row.msg2">
                         </samp>
                     </td>
@@ -136,7 +129,7 @@ export default {
                 if (errors.response.status == 401 && errors.response.statusText == 'Unauthorized') {
                     window.location = this.route('login');
                 }
-                this.$noty.error(this.__('Error fetching information.'), {
+                this.$noty.error(this.__('[Error fetching information.]'), {
                     modal: true
                 });
                 this.tableData = []

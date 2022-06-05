@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ElasticResource;
 use App\Http\Resources\HitsResource;
 use App\Http\Resources\LogsResource;
 use App\Models\Hit;
@@ -222,63 +221,35 @@ class StatsController extends Controller
         try {
             // DB::connection('elasticsearch')->enableQueryLog();
 
-            $data = MailLog::where('client.ip', $cidrInfo)->paginate(intval($request->perPage));
-            /*rawSearch([
-                "query" => [
-                    "term" => [
-                        "client.ip" => "1.1.1.0/25"
-                    ]
-                ],
-            ])->paginate(intval($request->perPage));*/
-           /* rawSearch([
-                'index' => '.ds-filebeat-*',
-                'body' => [
-                    "query" => [
-                        "term" => [
-                            "client.ip" => "1.1.1.0/25"
-                        ]
-                    ],
-                    "size" => intval($request->perPage),
-                    "from" => isset($request->from) ? ($request->from-1) : 0,
-                    "sort" => [
-                        [
-                            $request->column ?? "@timestamp" => [
-                                "unmapped_type" => "keyword",
-                                "order" => $request->order ?? "desc"
-                            ]
-                        ]
-                    ]
-                ]
-            ])->paginate(intval($request->perPage));*/
-            /*(['time', 'sys', 'msg'])
-                ->where('msg', 'regex', '/[^.0-9]'.$cidrInfo.'/i')
-                ->orderBy($request->column ?? 'time', $request->order ?? 'desc')
-                ->paginate(intval($request->perPage));*/
+            // $cidrInfo = '1.1.1.0/24';
+            $data = MailLog::
+                where('client.ip', $cidrInfo)
+                ->orderBy($request->column ?? "@timestamp", $request->order ?? "desc")
+                ->paginate(intval($request->perPage), ['message', '@timestamp', 'host.hostname', 'client.ip']);
 
-            // dump(DB::connection('elasticsearch')->getQueryLog());
-            /*Log::debug(
-                __METHOD__ .
-                " query: \n" .
-                print_r(DB::connection('elasticsearch')->getQueryLog(), true) .
-                "\n"
-            );*/
-
-            // dump($data);
             /*Log::debug(
                 __METHOD__.
-                " data: \n".
-                print_r($data, true).
+                " data=".print_r($data, true).
                 "\n\n"
             );*/
 
             foreach ($data as $row) {
-                $row->msg2 = '<pre>'.print_r($row, true).'</pre>';
-                // $row->msg2 = preg_replace('/(' . $regexInfo . '?)/', '<code>\1</code>', htmlentities($row->msg));
+                //regexp message
+                $regexp = '/^\w{3} [ :0-9]{11} [._[:alnum:]-]+ [._[:alnum:]-]+\[[0-9]+\]:(.*)$/i';
+
+                if (preg_match($regexp, $row->message, $matches)) {
+                    $row->msg2 = $matches[1];
+                } else {
+                    $row->msg2 = $row->message;
+                }
+
+                $row->msg2 = str_ireplace($row->client['ip'], '<code>'.$row->client['ip'].'</code>', htmlentities($row->msg2));
+
+                $row->msg2 = '<span title="'.$row->message.'">'.$row->msg2.'</span>';
+                //$row->msg2 .= '<br><pre>'.print_r($row, true).'</pre>';
             }
 
-            // $table = ElasticResource::collection($data);
             $table = LogsResource::collection($data);
-            // $table = $data;
 
             $table->additional = [
                 'rangeInfo' => $rangeInfo,
