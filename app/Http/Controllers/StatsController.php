@@ -123,7 +123,7 @@ class StatsController extends Controller
         }
 
         try {
-            $mongo = Syslog::count();
+            $mongo = number_format(Syslog::count(), 0, ",", ".");
         } catch (Exception $e) {
             $mongo = 'error getting count';
 
@@ -136,7 +136,7 @@ class StatsController extends Controller
         }
 
         try {
-            $elastic = 'not yet';
+            $elastic = number_format(MailLog::count(), 0, ",", ".");
         } catch (Exception $e) {
             $elastic = 'error getting count';
 
