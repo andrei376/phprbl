@@ -235,7 +235,7 @@ class StatsController extends Controller
 
             foreach ($data as $row) {
                 //regexp message
-                $regexp = '/^\w{3} [ :0-9]{11} [._[:alnum:]-]+ [._[:alnum:]-]+\[[0-9]+\]:(.*)$/i';
+                $regexp = '/^\w{3} [ :0-9]{11} [._[:alnum:]-]+ [/._[:alnum:]-]+\[[0-9]+\]:(.*)$/i';
 
                 if (preg_match($regexp, $row->message, $matches)) {
                     $row->msg2 = $matches[1];
