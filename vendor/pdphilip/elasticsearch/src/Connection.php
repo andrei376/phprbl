@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Types\Scalar;
 use RuntimeException;
-use Illuminate\Support\Facades\Log;
+
 
 class Connection extends BaseConnection
 {
@@ -157,7 +157,6 @@ class Connection extends BaseConnection
         $pass = config('database.connections.elasticsearch.password') ?? null;
         $certPath = config('database.connections.elasticsearch.ssl_cert') ?? null;
         $cb = ClientBuilder::create()->setHosts($hosts);
-
         if ($username && $pass) {
             $cb->setBasicAuthentication($username, $pass)->build();
         }
