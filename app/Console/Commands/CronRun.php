@@ -763,6 +763,7 @@ class CronRun extends Command
         $model = app('App\Models\MailLog');
 
         $regexps[] = '(\"disconnect from\") AND (\"commands=\")';
+        // $regexps[] = '(\"connect from\")';
         // $regexps[] = '/disconnect from .*/';
 
         foreach ($regexps as $regexp) {
@@ -779,7 +780,7 @@ class CronRun extends Command
             $rows = MailLog::rawSearch($bodyParams);
 
             if (count($rows) > 0) {
-                $this->line('found: '. print_r($rows->pluck('message'), true));
+                // $this->line('found: '. print_r($rows->pluck('message'), true));
 
                 foreach ($rows as $row) {
                     $delete_ids[] = $row['_id'];
