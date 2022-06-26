@@ -764,6 +764,8 @@ class CronRun extends Command
 
         $regexps[] = '("disconnect from") AND ("commands=")';
         $regexps[] = '("connect from")';
+        $regexps[] = '("Anonymous TLS connection established from")';
+        $regexps[] = '("statistics: max connection")';
         // $regexps[] = '/disconnect from .*/';
 
         foreach ($regexps as $regexp) {
