@@ -42,4 +42,13 @@ class MailLog extends Model
         }
         return $this->$field->diffForHumans();
     }
+
+    public function testingceva()
+    {
+        /*
+        $this->client->delete([
+            'index' => '.ds-filebeat-8.2.0-2022.05.21-000001',
+            'id' => 'Rb64H4EBmYwAdU2yHTCI'
+        ]);*/
+    }
 }

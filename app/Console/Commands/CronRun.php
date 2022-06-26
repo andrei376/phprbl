@@ -13,6 +13,7 @@ use App\Models\DefineList;
 use App\Models\Grey;
 use App\Models\Grey6;
 use App\Models\Hit;
+use App\Models\MailLog;
 use App\Models\RblLog;
 use App\Models\Setup;
 use App\Models\Syslog;
@@ -85,7 +86,10 @@ class CronRun extends Command
 
         try {
             //$this->line(date('H:i:s').' re-enable functions in handle()');
-            $this->checkRegex();
+
+
+            //regex not needed in elastic
+            // $this->checkRegex();
 
             $this->hits();
 
@@ -710,16 +714,20 @@ class CronRun extends Command
      */
     private function cleanupSyslog(): bool
     {
-        //run this only 1/day
+        //run this only 1/hour
         if (Cache::get('cleanupSyslog')) {
             // $this->line(__('[Already ran cleanupSyslog.exit.]'));
             return true;
         }
 
-        Cache::put('cleanupSyslog', true, now()->addDays(1));
+        //Cache::put('cleanupSyslog', true, now()->addDays(1));
+        Cache::put('cleanupSyslog', true, now()->addHours(1));
 
         //clean mongo db
-        $this->cleanMongo();
+        // $this->cleanMongo();
+
+        //clean elastic
+        $this->cleanElastic();
 
         //delete rows older than 4 years
         $delOld = Syslog::
@@ -728,11 +736,62 @@ class CronRun extends Command
 
 
         if ($delOld > 0) {
-            RblLog::saveLog('crontab', __('[SYSLOG delete]'), __('[Deleted :deleted rows]', ['deleted' => $delOld]));
+            RblLog::saveLog('crontab', __('[SYSLOG delete]'), __('ENABLE MONGO DELETE[Deleted :deleted rows]', ['deleted' => $delOld]));
+        }
+
+        unset($delOld);
+        //delete elastic rows older than 4 years
+        $date = new DateTime('-4 years');
+        $date = $date->format('c');
+
+        $delOld = MailLog::where('@timestamp', '<', $date)
+            ->count();
+
+        if ($delOld > 0) {
+            RblLog::saveLog('crontab', __('[Elastic delete]'), __('ENABLE elastic DELETE [Deleted :deleted rows]', ['deleted' => $delOld]));
         }
 
         // return false;
         return true;
+    }
+
+    /**
+     * delete garbage rows from elastic
+     */
+    private function cleanElastic()
+    {
+        $model = app('App\Models\MailLog');
+
+        $regexps[] = '(\"disconnect from\") AND (\"commands=\")';
+        // $regexps[] = '/disconnect from .*/';
+
+        foreach ($regexps as $regexp) {
+            $bodyParams = [
+                'query' => [
+                    'query_string' => [
+                        "fields"=> ["message"],
+                        'query' => $regexp,
+                    ],
+                ],
+                'size' => 60
+            ];
+
+            $rows = MailLog::rawSearch($bodyParams);
+
+            if (count($rows) > 0) {
+                $this->line('found: '. print_r($rows->pluck('message'), true));
+
+                foreach ($rows as $row) {
+                    $delete_ids[] = $row['_id'];
+                }
+                MailLog::destroy($delete_ids);
+            }
+            //DEBUG
+            /*if ($del > 2) {
+                $this->line('del: ' . print_r($del, true));
+                //$this->line('found: ' . print_r($rows->toArray(), true));
+            }*/
+        }
     }
 
     /**
