@@ -762,8 +762,8 @@ class CronRun extends Command
     {
         $model = app('App\Models\MailLog');
 
-        $regexps[] = '(\"disconnect from\") AND (\"commands=\")';
-        // $regexps[] = '(\"connect from\")';
+        $regexps[] = '("disconnect from") AND ("commands=")';
+        $regexps[] = '("connect from")';
         // $regexps[] = '/disconnect from .*/';
 
         foreach ($regexps as $regexp) {
@@ -800,6 +800,7 @@ class CronRun extends Command
      */
     private function cleanMongo()
     {
+        $regexps[] = '/^ disconnect from .* (ehlo|commands)=[/0-9]+.*$/i';
         $regexps[] = '/^ mac_parse: 127\\.0\\.0\\..*$/i';
         $regexps[] = '/^ inet_addr_list_append: .*$/i';
         $regexps[] = '/^ dict_eval: const.*$/i';
@@ -812,7 +813,6 @@ class CronRun extends Command
         $regexps[] = '/^ [A-Z0-9]+: conversation with .* timed out while sending MAIL FROM$/i';
         $regexps[] = '/^ [A-Z0-9]+: lost connection with .* while receiving the initial server greeting$/i';
         $regexps[] = '/^ NOQUEUE: reject: RCPT from .*: 450 4\.7\.1 <.*>: Recipient address rejected: greylisted, try again later.*$/i';
-        $regexps[] = '/^ disconnect from .* (ehlo|commands)=[/0-9]+.*$/i';
         $regexps[] = '/^ SSL_accept error from .*: (Connection timed out|-1|lost connection|0|Connection reset by peer)$/i';
         $regexps[] = '/^ prepend Authentication-Results: .*; spf=(pass|none|neutral|temperror) \((mailfrom|helo|sender SPF authorized|no SPF record|SPF Temporary Error: DNS Error: exceeded max query lookup time|access neither permitted nor denied)\) smtp\.(mailfrom|helo)=.*\)$/i';
         $regexps[] = '/^ prepend Received-SPF: (Pass|None|Neutral|Temperror) \(mailfrom|no SPF record|helo|sender SPF authorized\) identity=(mailfrom|no SPF record|helo); client-ip=.*; helo=.*$/i';
