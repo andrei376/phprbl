@@ -748,6 +748,8 @@ class CronRun extends Command
             ->count();
 
         if ($delOld > 0) {
+            // $this->line('to del '. $delOld);
+            // MailLog::where('@timestamp', '<', $date)->delete();
             RblLog::saveLog('crontab', __('[Elastic delete]'), __('ENABLE elastic DELETE [Deleted :deleted rows]', ['deleted' => $delOld]));
         }
 
@@ -766,6 +768,23 @@ class CronRun extends Command
         $regexps[] = '("connect from")';
         $regexps[] = '("Anonymous TLS connection established from")';
         $regexps[] = '("statistics: max connection")';
+        $regexps[] = '("prepend Authentication-Results") AND ("spf=pass")';
+        $regexps[] = '("lost connection after")';
+        $regexps[] = '("smtpd") AND ("warning: hostname") AND ("does not resolve to address")';
+        $regexps[] = '("smtpd") AND ("client=") AND ("sasl_method=")';
+        $regexps[] = '("dovecot: imap-login: Disconnected (no auth attempts in")';
+        $regexps[] = '("dovecot: imap-login: Aborted login (no auth attempts in")';
+        $regexps[] = '("smtpd") AND ("client=localhost.localdomain")';
+        // $regexps[] = '("opendkim") AND ("not internal")';
+        // $regexps[] = '("opendkim") AND ("no signing domain match for")';
+        // $regexps[] = '("opendkim") AND ("no signing subdomain match for")';
+        // $regexps[] = '("opendkim") AND ("DKIM-Signature field added")';
+        // $regexps[] = '("opendmarc") AND ("none")';
+        // $regexps[] = '("opendmarc") AND ("ignoring connection from localhost")';
+        $regexps[] = '("postfix/smtp") AND ("Untrusted TLS connection established to")';
+        $regexps[] = '("postfix/smtp") AND ("status=sent")';
+        $regexps[] = '("dovecot: imap-login: login: user=") AND ("session=")';
+
         // $regexps[] = '/disconnect from .*/';
 
         foreach ($regexps as $regexp) {
