@@ -69,6 +69,21 @@ class CronRun extends Command
         $this->line('Display this on the screen');
         */
 
+
+        //test server load
+        if (function_exists('sys_getloadavg')) {
+            $loadAvg = sys_getloadavg();
+        } else {
+            $loadAvg[0] = 1;
+            $loadAvg[1] = '';
+            $loadAvg[2] = '';
+        }
+
+        if ($loadAvg[0] > 3) {
+            $this->error(__('[Load average is high. Skip this run! Load: :load]', ['load' => $loadAvg[0]]));
+            return -1;
+        }
+
         $seconds = 301;
 
         if (function_exists('posix_times')) {
