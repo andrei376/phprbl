@@ -69,6 +69,10 @@ class CronRun extends Command
         $this->line('Display this on the screen');
         */
 
+        if (Cache::get('highload')) {
+            $this->error(__('[on highload.exit.]'));
+            return -1;
+        }
 
         //test server load
         if (function_exists('sys_getloadavg')) {
@@ -81,6 +85,7 @@ class CronRun extends Command
 
         if ($loadAvg[0] > 3) {
             $this->error(__('[Load average is high. Skip this run! Load: :load]', ['load' => $loadAvg[0]]));
+            Cache::put('highload', true, now()->addMinutes(10));
             return -1;
         }
 
