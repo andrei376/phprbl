@@ -70,7 +70,7 @@ class CronRun extends Command
         */
 
         if (Cache::get('highload')) {
-            $this->error(__('[on highload.exit.]'));
+            // $this->error(__('[on highload.exit.]'));
             return -1;
         }
 
