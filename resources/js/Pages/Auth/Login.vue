@@ -75,6 +75,7 @@
         methods: {
             submit: function() {
                 //refresh csrf token
+                this.form.processing = true;
                 axios.get(this.route('token')).then(function() {
                     this.form
                         .transform(data => ({
@@ -85,6 +86,7 @@
                             onFinish: () => this.form.reset('password'),
                         })
                 }.bind(this)).catch(() => {
+                    this.form.processing = false;
                     alert('Error');
                 });
             }
