@@ -85,7 +85,7 @@ class CronRun extends Command
 
         if ($loadAvg[0] > 3) {
             $this->error(__('[Load average is high. Skip this run! Load: :load]', ['load' => $loadAvg[0]]));
-            Cache::put('highload', true, now()->addMinutes(10));
+            Cache::put('highload', true, now()->addMinutes(5));
             return -1;
         }
 
