@@ -749,11 +749,15 @@ class CronRun extends Command
         //clean elastic
         $this->cleanElastic();
 
-        //delete rows older than 4 years
-        $delOld = Syslog::
-            where('time', '<', new DateTime('-4 years'))
-            ->count();
+        $delOld = 0;
 
+        if (gethostname() != 'Yagc') {
+            $this->line('ok, fetch mongo');
+            //delete rows older than 4 years
+            $delOld = Syslog::
+            where('time', '<', new DateTime('-3 years'))
+                ->count();
+        }
 
         if ($delOld > 0) {
             RblLog::saveLog('crontab', __('[SYSLOG delete]'), __('ENABLE MONGO DELETE[Deleted :deleted rows]', ['deleted' => $delOld]));
@@ -806,6 +810,8 @@ class CronRun extends Command
         $regexps[] = '("dovecot: imap-login: login: user=") AND ("session=")';
 
         // $regexps[] = '/disconnect from .*/';
+        // $regexps[] = '/disconnect from .*/';
+        // $regexps[] = '("dovecot") AND ("Fatal: connect(195.154.161.178:9091) failed:")';
 
         foreach ($regexps as $regexp) {
             $bodyParams = [
@@ -830,8 +836,8 @@ class CronRun extends Command
             }
             //DEBUG
             /*if ($del > 2) {
-                $this->line('del: ' . print_r($del, true));
-                //$this->line('found: ' . print_r($rows->toArray(), true));
+                // $this->line('del: ' . print_r($del, true));
+                $this->line('found: ' . print_r($rows->toArray(), true));
             }*/
         }
     }
