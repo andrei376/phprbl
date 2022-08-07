@@ -755,11 +755,11 @@ class CronRun extends Command
             //delete rows older than 3 years
             $delOld = Syslog::
             where('time', '<', new DateTime('-3 years'))
-                ->count();
+                ->delete();
         }
 
         if ($delOld > 0) {
-            RblLog::saveLog('crontab', __('[SYSLOG delete]'), __('ENABLE MONGO DELETE[Deleted :deleted rows]', ['deleted' => $delOld]));
+            RblLog::saveLog('crontab', __('[SYSLOG delete]'), __('[Deleted :deleted rows]', ['deleted' => $delOld]));
         }
 
         unset($delOld);
