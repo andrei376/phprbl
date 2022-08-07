@@ -752,8 +752,7 @@ class CronRun extends Command
         $delOld = 0;
 
         if (gethostname() != 'Yagc') {
-            $this->line('ok, fetch mongo');
-            //delete rows older than 4 years
+            //delete rows older than 3 years
             $delOld = Syslog::
             where('time', '<', new DateTime('-3 years'))
                 ->count();
