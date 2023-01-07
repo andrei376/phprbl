@@ -689,7 +689,10 @@ class TopController extends Controller
         }
 
         $searchField = 'id';
-        $groupField = ['iplong','mask'];
+        $groupBy = ['id'];
+        $groupBy[] = 'iplong';
+        $groupBy[] = 'mask';
+
         $searchValue = '';
         foreach ($request->input('search') as $field => $value) {
             //
@@ -701,7 +704,7 @@ class TopController extends Controller
                         } else {
                             $searchField = DB::raw('INET_NTOA(`iplong`)');
                         }
-                        $groupField = 'iplong';
+                        // $groupBy = ['id','iplong'];
                         break;
 
                     case 'date_added':
@@ -722,7 +725,6 @@ class TopController extends Controller
 
                     default:
                         $searchField = $field;
-                        $groupField = $field;
                         break;
                 }
                 $searchValue = $value;
@@ -734,7 +736,7 @@ class TopController extends Controller
         try {
             $data = $model
                 ->orderBy($request->column ?? 'total_ip', $request->order ?? 'desc')
-                ->groupBy(['id', $groupField])
+                ->groupBy($groupBy)
                 ->select([
                     DB::raw('@total := @total + 1 AS `index`'),
                     DB::raw('SUM(POW(2,'.($ipv6 ? 128 : 32).'-`mask`)) AS `total_ip`'),
