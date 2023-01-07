@@ -1270,11 +1270,22 @@ class RblController extends Controller
 
             // DB::enableQueryLog();
 
+            $groupBy = [
+                'id', 'ip1', 'ip2', 'ip3', 'ip4', 'iplong', 'mask', 'inetnum',
+                'netname', 'country', 'orgname', 'geoipcountry', 'delete',
+                'active', 'date_added', 'last_check', 'checked', 'created_at',
+                'updated_at'
+            ];
+
+            if (stripos($showList, '6')) {
+                $groupBy[] = 'ip5';
+            }
+
             try {
                 $data = $model
                     ->orderBy($request->column, $request->order)
                     ->orderBy('date_added', 'desc')
-                    ->groupBy(['id', 'ip1','ip2','ip3','ip4'])
+                    ->groupBy($groupBy)
                     ->where($searchField, 'like', '%'.$searchValue.'%')
                     ->withSum('hits', 'count')
                     ->paginate($request->perPage);
