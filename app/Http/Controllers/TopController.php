@@ -692,6 +692,8 @@ class TopController extends Controller
         $groupBy = ['id'];
         $groupBy[] = 'iplong';
         $groupBy[] = 'mask';
+        $groupBy[] = 'netname';
+        $groupBy[] = 'country';
 
         $searchValue = '';
         foreach ($request->input('search') as $field => $value) {
