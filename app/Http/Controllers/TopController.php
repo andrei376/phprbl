@@ -689,7 +689,7 @@ class TopController extends Controller
         }
 
         $searchField = 'id';
-        $groupField = 'iplong,mask';
+        $groupField = ['iplong','mask'];
         $searchValue = '';
         foreach ($request->input('search') as $field => $value) {
             //
