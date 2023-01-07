@@ -1282,9 +1282,12 @@ class RblController extends Controller
                 Log::error(
                     __METHOD__.
                     ' error: '.$e->getMessage().
+                    ", file=".$e->getFile().
                     ", line=".$e->getLine().
                     "\n"
                 );
+
+
 
                 return response('', 400);
             }
