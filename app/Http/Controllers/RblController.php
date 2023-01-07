@@ -1279,6 +1279,7 @@ class RblController extends Controller
 
             if (stripos($showList, '6')) {
                 $groupBy[] = 'ip5';
+                $groupBy[] = 'ip6';
             }
 
             try {
