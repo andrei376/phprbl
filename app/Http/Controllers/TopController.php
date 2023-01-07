@@ -79,9 +79,9 @@ class TopController extends Controller
                     DB::raw('SUM(POW(2,'.($ipv6 ? 128 : 32).'-`mask`)) AS `total_ip`'),
                     DB::raw('COUNT(*) AS `row_count`'),
                     'ip1',
-                    DB::raw('ANY_VALUE(`date_added`) AS `date_added`'),
-                    DB::raw('ANY_VALUE(`last_check`) AS `last_check`'),
-                    DB::raw('ANY_VALUE(`iplong`) AS `iplong`')
+                    DB::raw('MIN(`date_added`) AS `date_added`'),
+                    DB::raw('MIN(`last_check`) AS `last_check`'),
+                    DB::raw('MIN(`iplong`) AS `iplong`')
                 ])
                 ->crossJoin(DB::raw("(SELECT @total := 0) AS `fakeTotal`"))
 
@@ -159,9 +159,9 @@ class TopController extends Controller
                     DB::raw('SUM(POW(2,'.($ipv6 ? 128 : 32).'-`mask`)) AS `total_ip`'),
                     DB::raw('COUNT(*) AS `row_count`'),
                     'country',
-                    DB::raw('ANY_VALUE(`date_added`) AS `date_added`'),
-                    DB::raw('ANY_VALUE(`last_check`) AS `last_check`'),
-                    DB::raw('ANY_VALUE(`iplong`) AS `iplong`')
+                    DB::raw('MIN(`date_added`) AS `date_added`'),
+                    DB::raw('MIN(`last_check`) AS `last_check`'),
+                    DB::raw('MIN(`iplong`) AS `iplong`')
                 ])
                 ->crossJoin(DB::raw("(SELECT @total := 0) AS `fakeTotal`"))
 
@@ -239,9 +239,9 @@ class TopController extends Controller
                     DB::raw('SUM(POW(2,'.($ipv6 ? 128 : 32).'-`mask`)) AS `total_ip`'),
                     DB::raw('COUNT(*) AS `row_count`'),
                     'netname',
-                    DB::raw('ANY_VALUE(`date_added`) AS `date_added`'),
-                    DB::raw('ANY_VALUE(`last_check`) AS `last_check`'),
-                    DB::raw('ANY_VALUE(`iplong`) AS `iplong`')
+                    DB::raw('MIN(`date_added`) AS `date_added`'),
+                    DB::raw('MIN(`last_check`) AS `last_check`'),
+                    DB::raw('MIN(`iplong`) AS `iplong`')
                 ])
                 ->crossJoin(DB::raw("(SELECT @total := 0) AS `fakeTotal`"))
 
@@ -320,9 +320,9 @@ class TopController extends Controller
                     DB::raw('SUM(POW(2,'.($ipv6 ? 128 : 32).'-`mask`)) AS `total_ip`'),
                     DB::raw('COUNT(*) AS `row_count`'),
                     'inetnum',
-                    DB::raw('ANY_VALUE(`date_added`) AS `date_added`'),
-                    DB::raw('ANY_VALUE(`last_check`) AS `last_check`'),
-                    DB::raw('ANY_VALUE(`iplong`) AS `iplong`')
+                    DB::raw('MIN(`date_added`) AS `date_added`'),
+                    DB::raw('MIN(`last_check`) AS `last_check`'),
+                    DB::raw('MIN(`iplong`) AS `iplong`')
                 ])
                 ->crossJoin(DB::raw("(SELECT @total := 0) AS `fakeTotal`"))
 
@@ -400,9 +400,9 @@ class TopController extends Controller
                     DB::raw('SUM(POW(2,'.($ipv6 ? 128 : 32).'-`mask`)) AS `total_ip`'),
                     DB::raw('COUNT(*) AS `row_count`'),
                     'orgname',
-                    DB::raw('ANY_VALUE(`date_added`) AS `date_added`'),
-                    DB::raw('ANY_VALUE(`last_check`) AS `last_check`'),
-                    DB::raw('ANY_VALUE(`iplong`) AS `iplong`')
+                    DB::raw('MIN(`date_added`) AS `date_added`'),
+                    DB::raw('MIN(`last_check`) AS `last_check`'),
+                    DB::raw('MIN(`iplong`) AS `iplong`')
                 ])
                 ->crossJoin(DB::raw("(SELECT @total := 0) AS `fakeTotal`"))
 
@@ -484,9 +484,9 @@ class TopController extends Controller
                     DB::raw('SUM(POW(2,'.($ipv6 ? 128 : 32).'-`mask`)) AS `total_ip`'),
                     DB::raw('COUNT(*) AS `row_count`'),
                     DB::raw('YEAR(`date_added`) AS `year_added`'),
-                    DB::raw('ANY_VALUE(`date_added`) AS `date_added`'),
-                    DB::raw('ANY_VALUE(`last_check`) AS `last_check`'),
-                    DB::raw('ANY_VALUE(`iplong`) AS `iplong`')
+                    DB::raw('MIN(`date_added`) AS `date_added`'),
+                    DB::raw('MIN(`last_check`) AS `last_check`'),
+                    DB::raw('MIN(`iplong`) AS `iplong`')
                 ])
                 ->crossJoin(DB::raw("(SELECT @total := 0) AS `fakeTotal`"))
 
@@ -649,9 +649,9 @@ class TopController extends Controller
                     DB::raw('SUM(POW(2,'.($ipv6 ? 128 : 32).'-`mask`)) AS `total_ip`'),
                     DB::raw('COUNT(*) AS `row_count`'),
                     DB::raw('DATE_FORMAT(`last_check`, "%Y-%m %M") AS `top_last_check`'),
-                    DB::raw('ANY_VALUE(`date_added`) AS `date_added`'),
-                    DB::raw('ANY_VALUE(`last_check`) AS `last_check`'),
-                    DB::raw('ANY_VALUE(`iplong`) AS `iplong`')
+                    DB::raw('MIN(`date_added`) AS `date_added`'),
+                    DB::raw('MIN(`last_check`) AS `last_check`'),
+                    DB::raw('MIN(`iplong`) AS `iplong`')
                 ])
                 ->crossJoin(DB::raw("(SELECT @total := 0) AS `fakeTotal`"))
 
@@ -748,7 +748,7 @@ class TopController extends Controller
                 ->withSum('hits', 'count')
                 ->paginate($request->perPage);
 
-            //DB::raw('ANY_VALUE(`iplong`) AS `iplong`')
+            //DB::raw('MIN(`iplong`) AS `iplong`')
         } catch (Exception $e) {
             Log::error(
                 __METHOD__.
