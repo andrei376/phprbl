@@ -1270,14 +1270,24 @@ class RblController extends Controller
 
             // DB::enableQueryLog();
 
-            $data = $model
-                ->orderBy($request->column, $request->order)
-                ->orderBy('date_added', 'desc')
-                ->groupBy('id')
-                ->where($searchField, 'like', '%'.$searchValue.'%')
-                ->withSum('hits', 'count')
-                ->paginate($request->perPage);
+            try {
+                $data = $model
+                    ->orderBy($request->column, $request->order)
+                    ->orderBy('date_added', 'desc')
+                    ->groupBy('id')
+                    ->where($searchField, 'like', '%'.$searchValue.'%')
+                    ->withSum('hits', 'count')
+                    ->paginate($request->perPage);
+            } catch (Exception $e) {
+                Log::error(
+                    __METHOD__.
+                    ' error: '.$e->getMessage().
+                    ", line=".$e->getLine().
+                    "\n"
+                );
 
+                return response('', 400);
+            }
 
             /*Log::debug(
                 __METHOD__.
