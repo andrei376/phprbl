@@ -1274,7 +1274,7 @@ class RblController extends Controller
                 $data = $model
                     ->orderBy($request->column, $request->order)
                     ->orderBy('date_added', 'desc')
-                    ->groupBy(['id', 'ip1'])
+                    ->groupBy(['id', 'ip1','ip2'])
                     ->where($searchField, 'like', '%'.$searchValue.'%')
                     ->withSum('hits', 'count')
                     ->paginate($request->perPage);
