@@ -170,7 +170,7 @@ class WhoisLib
         try {
             $response = $http->get($url);
         } catch (Exception $e) {
-            Log::error(__("[ERROR! querying :ip, url: :url, http status: :status, response:\n :resp \nbody: \n :body]", [
+            Log::error(__("[EXCEPTION! querying :ip, url: :url, exception:\n :exception]", [
                 'ip' => $ip,
                 'url' => $url,
                 'exception' => $e->getMessage()
