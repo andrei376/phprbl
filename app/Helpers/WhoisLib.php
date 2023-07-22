@@ -167,7 +167,16 @@ class WhoisLib
             'verify' => false
         ]);
 
-        $response = $http->get($url);
+        try {
+            $response = $http->get($url);
+        } catch (Exception $e) {
+            Log::error(__("[ERROR! querying :ip, url: :url, http status: :status, response:\n :resp \nbody: \n :body]", [
+                'ip' => $ip,
+                'url' => $url,
+                'exception' => $e->getMessage()
+            ]));
+            return $emptyResult;
+        }
 
         if (!$response->successful()) {
             Log::error(__("[ERROR! querying :ip, url: :url, http status: :status, response:\n :resp \nbody: \n :body]", [
