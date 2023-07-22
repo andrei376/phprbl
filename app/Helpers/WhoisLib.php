@@ -170,6 +170,7 @@ class WhoisLib
         try {
             $response = $http->get($url);
         } catch (Exception $e) {
+            var_dump('get host=' . gethostbyname('rdap.arin.net'));
             Log::error(__("[EXCEPTION! querying :ip, url: :url, exception:\n :exception]", [
                 'ip' => $ip,
                 'url' => $url,
