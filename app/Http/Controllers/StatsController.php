@@ -169,6 +169,9 @@ class StatsController extends Controller
 
         if (function_exists('sys_getloadavg')) {
             $loadAvg = sys_getloadavg();
+            $loadAvg[0] = round($loadAvg[0], 2);
+            $loadAvg[1] = round($loadAvg[1], 2);
+            $loadAvg[2] = round($loadAvg[2], 2);
         } else {
             $loadAvg[0] = 'sys_getloadavg() missing';
             $loadAvg[1] = '';
