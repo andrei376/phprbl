@@ -754,7 +754,7 @@ class CronRun extends Command
         if (gethostname() != 'Yagc') {
             //delete rows older than 3 years
             $delOld = Syslog::
-            where('time', '<', new DateTime('35 months ago'))
+            where('time', '<', new DateTime('34 months ago'))
                 ->delete();
         }
 
@@ -1662,6 +1662,7 @@ class CronRun extends Command
                 where('checked', 1)
                 ->where('last_check', '<', DB::raw('DATE_SUB(NOW(),INTERVAL '.$intervalLastCheck.' DAY)'))
                 ->where('date_added', '<', DB::raw('DATE_SUB(NOW(),INTERVAL '.$intervalAdded.' YEAR)'))
+                ->whereNotIn('country', ['CN', 'RU'])
                 ->leftJoinSub($latestHits, 'latest_hits', function ($join) {
                     $join->on('id', '=', 'latest_hits.list_id');
                 })
