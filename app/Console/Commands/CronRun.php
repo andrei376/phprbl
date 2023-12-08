@@ -754,7 +754,7 @@ class CronRun extends Command
         if (gethostname() != 'Yagc') {
             //delete rows older than 3 years
             $delOld = Syslog::
-            where('time', '<', new DateTime('23 months ago'))
+            where('time', '<', new DateTime('20 months ago'))
                 ->delete();
         }
 
