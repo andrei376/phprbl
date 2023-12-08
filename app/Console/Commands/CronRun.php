@@ -754,7 +754,7 @@ class CronRun extends Command
         if (gethostname() != 'Yagc') {
             //delete rows older than 3 years
             $delOld = Syslog::
-            where('time', '<', new DateTime('24 months ago'))
+            where('time', '<', new DateTime('23 months ago'))
                 ->delete();
         }
 
@@ -1089,9 +1089,10 @@ class CronRun extends Command
 
             if ($whoisData['inetnum'] != $toCheck->inetnum ||
                 $whoisData['netname'] != $toCheck->netname ||
-                $whoisData['country'] != $toCheck->country ||
-                $whoisData['orgname'] != $toCheck->orgname
+                $whoisData['country'] != $toCheck->country
             ) {
+                // ||
+                // $whoisData['orgname'] != $toCheck->orgname
                 //whois is changed, update last check and mark unchecked so a human checks the ip
                 $toCheck->last_check = date('Y-m-d H:i:s');
                 $toCheck->checked = 0;
