@@ -122,7 +122,7 @@ class StatsController extends Controller
             }
         }
 
-        try {
+        /*try {
             $mongo = number_format(Syslog::count(), 0, ",", ".");
         } catch (Exception $e) {
             $mongo = 'error getting count';
@@ -133,7 +133,7 @@ class StatsController extends Controller
                 // "\n".$e->getTraceAsString().
                 "\n\n"
             );
-        }
+        }*/
 
         try {
             $elastic = number_format(MailLog::count(), 0, ",", ".");
@@ -155,7 +155,7 @@ class StatsController extends Controller
             'laravelVersion' => Application::VERSION,
             'phpVersion' => PHP_VERSION,
             'stats' => $stats,
-            'mongo' => $mongo,
+            // 'mongo' => $mongo,
             'elastic' => $elastic,
             // 'flash' => $flash
         ]);
