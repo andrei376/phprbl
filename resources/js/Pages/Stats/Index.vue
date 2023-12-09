@@ -29,10 +29,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="d-flex">
+<!--                                <tr class="d-flex">
                                     <td class="col-3">Mongo</td>
                                     <td class="col-9">{{ mongo }}</td>
-                                </tr>
+                                </tr>-->
                                 <tr class="d-flex">
                                     <td class="col-3">Elastic</td>
                                     <td class="col-9">{{ elastic }}</td>
