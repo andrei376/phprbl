@@ -276,6 +276,8 @@ class StatsController extends Controller
 
     public function syslog(Request $request, string $iplong, int $mask)
     {
+        return response('', 400);
+
         $ipv6 = false;
 
         $c4 = new Rbl4();

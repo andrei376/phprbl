@@ -751,7 +751,7 @@ class CronRun extends Command
 
         $delOld = 0;
 
-        if (gethostname() != 'Yagc') {
+        /*if (gethostname() != 'Yagc') {
             //delete rows older than 3 years
             $delOld = Syslog::
             where('time', '<', new DateTime('18 months ago'))
@@ -762,7 +762,7 @@ class CronRun extends Command
             RblLog::saveLog('crontab', __('[SYSLOG/Mongo delete]'), __('[Deleted :deleted rows]', ['deleted' => $delOld]));
         }
 
-        unset($delOld);
+        unset($delOld);*/
         //delete elastic rows older than 4 years
         $date = new DateTime('48 months ago');
         $date = $date->format('c');
