@@ -229,9 +229,9 @@
                             <elastic :iplong="ipInfo.iplong" :mask="ipInfo.mask" />
                         </div>
 
-                        <div id="10syslog">
+<!--                        <div id="10syslog">
                             <syslog :iplong="ipInfo.iplong" :mask="ipInfo.mask" />
-                        </div>
+                        </div>-->
                     </div>
                 </div>
             </div>
