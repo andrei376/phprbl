@@ -61,6 +61,19 @@ class CheckV4 implements Rule
             $this->errorMsg = __('line :line, ip ":ip", error: :error', ['line' => ($line + 1), 'ip' => $value, 'error' => $result['resip']['error']]);
         }
 
+        if ($result['resip']['ip'] == -2) {
+            //exists
+            $this->errorMsg = __('line :line, ip ":ip", error: :error', ['line' => ($line + 1), 'ip' => $value, 'error' => $result['resip']['error']]);
+            // dump($result);
+
+            $this->passOk = [
+                'resip' => $result['resip'],
+                // 'okip' => $result['okip']
+            ];
+
+            return true;
+        }
+
         if (isset($result['okip']) && !empty($result['okip'])) {
             //
 

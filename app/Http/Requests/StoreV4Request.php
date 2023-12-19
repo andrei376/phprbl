@@ -106,9 +106,11 @@ class StoreV4Request extends FormRequest
                     if (!$result) {
                         $fail($c4->message());
                     } else {
-                        //dump($c4->passOk);
+                        // dump($c4->passOk);
                         $this->ipOk['resip'][] = $c4->passOk['resip'];
-                        $this->ipOk['okip'][] = $c4->passOk['okip'];
+                        if (isset($c4->passOk['okip'])) {
+                            $this->ipOk['okip'][] = $c4->passOk['okip'];
+                        }
                     }
                 }
             ],
@@ -141,6 +143,10 @@ class StoreV4Request extends FormRequest
     public function validated(): array
     {
         $data = parent::validated();
+
+        if (!isset($this->ipOk['okip'])) {
+            $this->ipOk['okip'] = [];
+        }
 
         $data = array_merge($data, [
             'resip' => $this->ipOk['resip'],

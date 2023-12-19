@@ -300,7 +300,7 @@ class Rbl4
                         'geo' => @geoip_country_name_by_name($iprbl['ip'])
                     ]);
 
-                    $iprbl['ip'] = '-1';
+                    $iprbl['ip'] = '-2';
                     $resip = $iprbl;
 
                     return array('resip' => $resip, 'okip' => $okip);
@@ -321,7 +321,7 @@ class Rbl4
                         'geo' => @geoip_country_name_by_name($iprbl['ip'])
                     ]);
 
-                    $iprbl['ip'] = '-1';
+                    $iprbl['ip'] = '-2';
                     $resip = $iprbl;
 
                     return array('resip' => $resip, 'okip' => $okip);

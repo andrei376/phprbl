@@ -107,7 +107,9 @@ class StoreV6Request extends FormRequest
                     } else {
                         // dump($c6->passOk);
                         $this->ipOk['resip'][] = $c6->passOk['resip'];
-                        $this->ipOk['okip'][] = $c6->passOk['okip'];
+                        if (isset($c6->passOk['okip'])) {
+                            $this->ipOk['okip'][] = $c6->passOk['okip'];
+                        }
                     }
                 }
             ],
@@ -140,6 +142,10 @@ class StoreV6Request extends FormRequest
     public function validated(): array
     {
         $data = parent::validated();
+
+        if (!isset($this->ipOk['okip'])) {
+            $this->ipOk['okip'] = [];
+        }
 
         $data = array_merge($data, [
             'resip' => $this->ipOk['resip'],
