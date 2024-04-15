@@ -1663,7 +1663,7 @@ class CronRun extends Command
                 where('checked', 1)
                 ->where('last_check', '<', DB::raw('DATE_SUB(NOW(),INTERVAL '.$intervalLastCheck.' DAY)'))
                 ->where('date_added', '<', DB::raw('DATE_SUB(NOW(),INTERVAL '.$intervalAdded.' YEAR)'))
-                ->whereNotIn('country', ['CN', 'RU'])
+                ->whereNotIn('country', ['CN', 'RU', 'BR'])
                 ->leftJoinSub($latestHits, 'latest_hits', function ($join) {
                     $join->on('id', '=', 'latest_hits.list_id');
                 })
