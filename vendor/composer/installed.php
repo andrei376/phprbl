@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '4cfb8210a293043770a6d70407c1c3b1b7d9bbfc',
+    'reference' => 'bf6eec2eba83f86a26481ceb67d612919e80ec49',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -37,6 +37,15 @@
       array (
       ),
       'reference' => '6b69015d83d3daf9004a71a89f26e27d27ef6a16',
+    ),
+    'beberlei/assert' => 
+    array (
+      'pretty_version' => 'v3.3.2',
+      'version' => '3.3.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'cb70015c04be1baee6f5f5c953703347c0ac1655',
     ),
     'brick/math' => 
     array (
@@ -222,6 +231,15 @@
       array (
       ),
       'reference' => 'd7f08a622b3346766325488aa32ddc93ccdecc75',
+    ),
+    'fgrosse/phpasn1' => 
+    array (
+      'pretty_version' => 'v2.5.0',
+      'version' => '2.5.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '42060ed45344789fb9f21f9f1864fc47b9e3507b',
     ),
     'fideloper/proxy' => 
     array (
@@ -578,7 +596,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '4cfb8210a293043770a6d70407c1c3b1b7d9bbfc',
+      'reference' => 'bf6eec2eba83f86a26481ceb67d612919e80ec49',
     ),
     'laravel/sail' => 
     array (
@@ -642,6 +660,24 @@
       array (
       ),
       'reference' => 'ff6248ea87a9f116e78edd6002e39e5128a0d4dd',
+    ),
+    'league/uri' => 
+    array (
+      'pretty_version' => '6.5.0',
+      'version' => '6.5.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'c68ca445abb04817d740ddd6d0b3551826ef0c5a',
+    ),
+    'league/uri-interfaces' => 
+    array (
+      'pretty_version' => '2.3.0',
+      'version' => '2.3.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '00e7e2943f76d8cb50c7dfdc2f6dee356e15e383',
     ),
     'livewire/livewire' => 
     array (
@@ -1200,6 +1236,24 @@
       ),
       'reference' => 'c6c1022351a901512170118436c764e473f6de8c',
     ),
+    'spomky-labs/base64url' => 
+    array (
+      'pretty_version' => 'v2.0.4',
+      'version' => '2.0.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '7752ce931ec285da4ed1f4c5aa27e45e097be61d',
+    ),
+    'spomky-labs/cbor-php' => 
+    array (
+      'pretty_version' => 'v2.1.0',
+      'version' => '2.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '28e2712cfc0b48fae661a48ffc6896d7abe83684',
+    ),
     'swiftmailer/swiftmailer' => 
     array (
       'pretty_version' => 'v6.3.0',
@@ -1475,6 +1529,15 @@
       ),
       'reference' => 'af52239a330fafd192c773795520dc2dd62b5657',
     ),
+    'thecodingmachine/safe' => 
+    array (
+      'pretty_version' => 'v1.3.3',
+      'version' => '1.3.3.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a8ab0876305a4cdaef31b2350fcb9811b5608dbc',
+    ),
     'theseer/tokenizer' => 
     array (
       'pretty_version' => '1.2.1',
@@ -1519,6 +1582,33 @@
       array (
       ),
       'reference' => '87337c91b9dfacee02452244ee14ab3c43bc485a',
+    ),
+    'web-auth/cose-lib' => 
+    array (
+      'pretty_version' => 'v3.3.12',
+      'version' => '3.3.12.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'efa6ec2ba4e840bc1316a493973c9916028afeeb',
+    ),
+    'web-auth/metadata-service' => 
+    array (
+      'pretty_version' => 'v3.3.12',
+      'version' => '3.3.12.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'ef40d2b7b68c4964247d13fab52e2fa8dbd65246',
+    ),
+    'web-auth/webauthn-lib' => 
+    array (
+      'pretty_version' => 'v3.3.12',
+      'version' => '3.3.12.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5ef9b21c8e9f8a817e524ac93290d08a9f065b33',
     ),
     'webmozart/assert' => 
     array (
