@@ -20,6 +20,10 @@ class MailLog extends Model
         '@timestamp',
     ];
 
+    protected $casts = [
+        '@timestamp' => 'datetime',
+    ];
+
     protected $appends = [
         'time_format',
         'time_ago'
