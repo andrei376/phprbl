@@ -44,7 +44,7 @@
                                     <td>
                                         <input type="hidden" :name="'data['+ row.id +'][id]'" v-model="form.fdata[row.id].id">
                                         <span>{{ row.long2ip }}/{{ row.mask }}</span>
-                                        <span v-if="id === row.id" class="badge badge-success mr-1 ml-3" style="min-width: 2rem;">{{ this.__('self') }}</span>
+                                        <span v-if="id === row.id" class="badge bg-success mr-1 ml-3" style="min-width: 2rem;">{{ this.__('self') }}</span>
                                         <br>
                                         <span class="">{{ row.range }}</span>
                                     </td>

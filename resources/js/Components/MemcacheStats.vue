@@ -14,12 +14,12 @@
                 <tr><td>Number of connection structures allocated by the server </td><td>{{ stats["connection_structures"] }}</td></tr>
                 <tr><td>Cumulative number of retrieval requests </td><td>{{ stats["cmd_get"] }}</td></tr>
                 <tr><td> Cumulative number of storage requests </td><td>{{ stats["cmd_set"] }}</td></tr>
-                <tr><td>Number of keys that have been requested and found present </td><td>{{ stats["get_hits"] }}  <span class="badge badge-success ml-3">{{ percCacheHit }}% found</span></td></tr>
-                <tr><td>Number of items that have been requested and not found </td><td>{{ stats["get_misses"] }}  <span class="badge badge-danger ml-3">{{ percCacheMiss }}% not found</span></td></tr>
+                <tr><td>Number of keys that have been requested and found present </td><td>{{ stats["get_hits"] }}  <span class="badge bg-success ml-3">{{ percCacheHit }}% found</span></td></tr>
+                <tr><td>Number of items that have been requested and not found </td><td>{{ stats["get_misses"] }}  <span class="badge bg-danger ml-3">{{ percCacheMiss }}% not found</span></td></tr>
                 <tr><td>Total number of bytes read by this server from network </td><td>{{ MBRead }} Mega Bytes ({{ stats['bytes_read'] }})</td></tr>
                 <tr><td>Total number of bytes sent by this server to network </td><td>{{ MBWrite }} Mega Bytes ({{ stats['bytes_written'] }})</td></tr>
                 <tr><td>Number of bytes this server is allowed to use for storage.</td><td>{{ MBSize }} Mega Bytes</td></tr>
-                <tr><td>Number of valid items removed from cache to free memory for new items.</td><td><span class="badge badge-danger">{{ stats["evictions"] }}</span></td></tr>
+                <tr><td>Number of valid items removed from cache to free memory for new items.</td><td><span class="badge bg-danger">{{ stats["evictions"] }}</span></td></tr>
             </tbody>
         </table>
     </div>

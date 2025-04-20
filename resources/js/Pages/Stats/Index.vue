@@ -82,6 +82,9 @@
     import SimpleTable from "@/Pages/Rbl/SimpleTable";
     import MemcacheStats from "@/Components/MemcacheStats";
 
+    import { Tooltip } from 'bootstrap';
+
+
     export default {
         components: {
             BreezeAuthenticatedLayout,
@@ -102,7 +105,7 @@
 
         data() {
             return {
-                bootstrapVersion: $.fn.tooltip.Constructor.VERSION,
+                bootstrapVersion: Tooltip.VERSION,
                 jqueryVersion: $.fn.jquery,
                 columns: [
                     {

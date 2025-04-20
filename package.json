@@ -26,7 +26,7 @@
     },
     "dependencies": {
         "@simplewebauthn/browser": "^8.0.2",
-        "bootstrap": "^4.6.2",
+        "bootstrap": "^5.3.5",
         "bootstrap-icons": "^1.10.2",
         "cross-env": "^7.0.3",
         "jquery": "^3.6.3",

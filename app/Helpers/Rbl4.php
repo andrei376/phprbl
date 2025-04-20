@@ -654,7 +654,7 @@ class Rbl4
         foreach ($rows as $row) {
             $resultData[] = [
                 'list' => $list,
-                'ip' => ($row['id'] == $searchIp->id ? '<span class="badge badge-success mr-1" style="min-width: 2rem;">'.__('self').'</span>' : '').
+                'ip' => ($row['id'] == $searchIp->id ? '<span class="badge bg-success mr-1" style="min-width: 2rem;">'.__('self').'</span>' : '').
                     '<a href="'.
                     URL::route('rbl.show4', ['id' => $row['id'], 'list' => $list]).
                     '">'.

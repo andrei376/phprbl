@@ -42,19 +42,19 @@
                                     <tr>
                                         <th scope="row" class="col-auto table-dark text-right">delete</th>
                                         <td>
-                                            <span v-if="ipInfo.delete" class="badge badge-danger mr-5" style="min-width: 4rem;">{{ ipInfo.delete }}</span>
-                                            <span v-else class="badge badge-success mr-5" style="min-width: 4rem;">{{ ipInfo.delete }}</span>
-                                            <inertia-link class="badge badge-secondary mr-2" :href="this.route('rbl.toggle4', {'id': ipInfo.id, 'list': list, 'field': 'delete'})">{{ this.__('Change') }}</inertia-link>
+                                            <span v-if="ipInfo.delete" class="badge bg-danger mr-5" style="min-width: 4rem;">{{ ipInfo.delete }}</span>
+                                            <span v-else class="badge bg-success mr-5" style="min-width: 4rem;">{{ ipInfo.delete }}</span>
+                                            <inertia-link class="badge btn btn-secondary mr-2" :href="this.route('rbl.toggle4', {'id': ipInfo.id, 'list': list, 'field': 'delete'})">{{ this.__('Change') }}</inertia-link>
                                             ({{ this.__('remove from db: delete=1, checked=1, active=0') }})
-                                            <button @click="deleteRow(ipInfo.id, list)" type="button" class="badge badge-danger ml-2">{{ this.__('[Mark to delete]') }}</button>
+                                            <button @click="deleteRow(ipInfo.id, list)" type="button" class="badge bg-danger ml-2">{{ this.__('[Mark to delete]') }}</button>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="col-auto table-dark text-right">active</th>
                                         <td>
-                                            <span v-if="ipInfo.active" class="badge badge-success mr-5" style="min-width: 4rem;">{{ ipInfo.active }}</span>
-                                            <span v-else class="badge badge-danger mr-5" style="min-width: 4rem;">{{ ipInfo.active }}</span>
-                                            <inertia-link class="badge badge-secondary mr-2" :href="this.route('rbl.toggle4', {'id': ipInfo.id, 'list': list, 'field': 'active'})">{{ this.__('Change') }}</inertia-link>
+                                            <span v-if="ipInfo.active" class="badge bg-success mr-5" style="min-width: 4rem;">{{ ipInfo.active }}</span>
+                                            <span v-else class="badge bg-danger mr-5" style="min-width: 4rem;">{{ ipInfo.active }}</span>
+                                            <inertia-link class="badge btn btn-secondary mr-2" :href="this.route('rbl.toggle4', {'id': ipInfo.id, 'list': list, 'field': 'active'})">{{ this.__('Change') }}</inertia-link>
                                             ({{ this.__('exported to dns: active=1, delete=0') }})
                                         </td>
                                     </tr>
@@ -73,9 +73,9 @@
                                     <tr>
                                         <th scope="row" class="col-auto table-dark text-right">checked</th>
                                         <td>
-                                            <span v-if="ipInfo.checked" class="badge badge-success mr-5" style="min-width: 4rem;">{{ ipInfo.checked }}</span>
-                                            <span v-else class="badge badge-danger mr-5" style="min-width: 4rem;">{{ ipInfo.checked }}</span>
-                                            <inertia-link class="badge badge-secondary mr-2" :href="this.route('rbl.toggle4', {'id': ipInfo.id, 'list': list, 'field': 'checked'})">{{ this.__('Change') }}</inertia-link>
+                                            <span v-if="ipInfo.checked" class="badge bg-success mr-5" style="min-width: 4rem;">{{ ipInfo.checked }}</span>
+                                            <span v-else class="badge bg-danger mr-5" style="min-width: 4rem;">{{ ipInfo.checked }}</span>
+                                            <inertia-link class="badge btn btn-secondary mr-2" :href="this.route('rbl.toggle4', {'id': ipInfo.id, 'list': list, 'field': 'checked'})">{{ this.__('Change') }}</inertia-link>
                                         </td>
                                     </tr>
                                 </tbody>

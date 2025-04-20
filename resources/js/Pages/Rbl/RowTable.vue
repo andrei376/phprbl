@@ -26,8 +26,8 @@
                 <td>{{ row.orgname }}</td>
                 <td>{{ row.country }}</td>
                 <td>
-                    <span v-if="row.checked" class="badge badge-success mr-5" style="min-width: 4rem;">{{ row.checked }}</span>
-                    <span v-else class="badge badge-danger mr-5" style="min-width: 4rem;">{{ row.checked }}</span>
+                    <span v-if="row.checked" class="badge bg-success mr-5" style="min-width: 4rem;">{{ row.checked }}</span>
+                    <span v-else class="badge bg-danger mr-5" style="min-width: 4rem;">{{ row.checked }}</span>
                 </td>
             </tr>
         </tbody>

@@ -171,12 +171,12 @@
             </header>
 
             <!-- Page Content -->
-            <main>
-                <div class="col-sm-12 col-xl-10 inline-block">
+            <main class="container-fluid">
+                <div class="col-sm-12 col-xl-10 inline-block container-fluid">
                     <slot />
                 </div>
 
-                <div class="col-sm-12 col-xl-2 inline-block align-top pt-2 pr-1">
+                <div class="col-sm-12 col-xl-2 inline-block align-top pt-2 pr-1 container-fluid">
                     <rbl-stats />
                 </div>
             </main>

@@ -33,8 +33,8 @@
                                     <tr v-for="(row, list) in flashData.result.dns">
                                         <td>{{ list }}</td>
                                         <td>
-                                            <span v-if="!row.found" class="badge badge-danger mr-5" style="min-width: 4rem;">{{ row.found }}</span>
-                                            <span v-else class="badge badge-success mr-5" style="min-width: 4rem;">{{ row.found }}</span>
+                                            <span v-if="!row.found" class="badge bg-danger mr-5" style="min-width: 4rem;">{{ row.found }}</span>
+                                            <span v-else class="badge bg-success mr-5" style="min-width: 4rem;">{{ row.found }}</span>
                                         </td>
                                         <td>{{ row.ip }}</td>
                                     </tr>
