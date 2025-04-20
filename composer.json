@@ -12,7 +12,7 @@
         "ext-json": "*",
         "fruitcake/laravel-cors": "*",
         "guzzlehttp/guzzle": "^7.0.1",
-        "inertiajs/inertia-laravel": "*",
+        "inertiajs/inertia-laravel": "v2.0.2",
         "laravel/framework": "^v10.48.29",
         "laravel/sanctum": "^v3.3.3",
         "laravel/tinker": "^2.5",
