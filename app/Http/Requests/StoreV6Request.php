@@ -139,7 +139,7 @@ class StoreV6Request extends FormRequest
      * @return array
      * @noinspection PhpUnused
      */
-    public function validated(): array
+    public function validated($key = null, $default = null): array
     {
         $data = parent::validated();
 

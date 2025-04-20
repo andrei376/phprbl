@@ -14,4 +14,8 @@ function translations(string $json): array
     return json_decode(file_get_contents($json), true);
 }
 
+function geoip_country_name_by_name($ip)
+{
+    return 'TODO GEOIP';
+}
 ?>

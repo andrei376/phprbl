@@ -1,256 +1,347 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PDPhilip\Elasticsearch\Schema;
 
-use Exception;
 use Closure;
+use Elastic\Elasticsearch\Endpoints\Indices;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\MissingParameterException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
+use Illuminate\Database\Schema\Builder as BaseBuilder;
+use Illuminate\Support\Arr;
 use PDPhilip\Elasticsearch\Connection;
+use PDPhilip\Elasticsearch\Exceptions\LogicException;
+use PDPhilip\Elasticsearch\Laravel\Compatibility\Schema\BuilderCompatibility;
+use PDPhilip\Elasticsearch\Utils\Sanitizer;
 
-class Builder
+/**
+ * @property Connection $connection
+ */
+class Builder extends BaseBuilder
 {
+    use BuilderCompatibility;
+    // ----------------------------------------------------------------------
+    // Index Config & Reads
+    // ----------------------------------------------------------------------
 
-    protected $connection;
-
-    public function __construct(Connection $connection)
+    public function overridePrefix($value): Builder
     {
-        $this->connection = $connection;
+        $this->connection->setIndexPrefix($value);
+
+        return $this;
     }
 
-    //----------------------------------------------------------------------
-    //  View Index Meta
-    //----------------------------------------------------------------------
-
-    public function getIndices($includeSystem = false)
+    // ----------------------------------------------------------------------
+    // Index getters
+    // ----------------------------------------------------------------------
+    public function getTables($schema = null): array
     {
-        return $this->connection->getIndices($includeSystem);
+        return $this->connection->getPostProcessor()->processTables(
+            $this->connection->elastic()->cat()->indices(
+                [
+                    'index' => $this->connection->getTablePrefix().'*',
+                    'format' => 'json',
+                ]
+            )
+        );
     }
 
-    public function getMappings($index, $forceIndexName = false)
+    public function getTable($name): array
     {
-        if (!$forceIndexName) {
-            $index = $this->connection->setIndex($index);
+        return $this->connection->getPostProcessor()->processTables(
+            $this->connection->elastic()->cat()->indices(
+                [
+                    'index' => $this->connection->getTablePrefix().$name,
+                    'format' => 'json',
+                ]
+            )
+        );
+    }
+
+    public function hasTable($table): bool
+    {
+        $index = $this->parseIndexName($table);
+        $params = ['index' => $index];
+
+        return $this->connection->elastic()->indices()->exists($params)->asBool();
+    }
+
+    public function hasColumn($table, $column): bool
+    {
+        $index = $this->parseIndexName($table);
+        $params = ['index' => $index, 'fields' => $column];
+        $result = $this->connection->elastic()->indices()->getFieldMapping($params)->asArray();
+
+        return ! empty($result[$index]['mappings'][$column]);
+    }
+
+    public function hasColumns($table, $columns): bool
+    {
+        $index = $this->parseIndexName($table);
+        $params = ['index' => $index, 'fields' => implode(',', $columns)];
+        $result = $this->connection->elastic()->indices()->getFieldMapping($params)->asArray();
+
+        foreach ($columns as $value) {
+            if (empty($result[$index]['mappings'][$value])) {
+                return false;
+            }
         }
 
-        return $this->connection->indexMappings($index);
+        return true;
     }
 
-    public function getSettings($index, $forceIndexName = false)
-    {
-        if (!$forceIndexName) {
-            $index = $this->connection->setIndex($index);
-        }
+    // ----------------------------------------------------------------------
+    // Index Modifiers
+    // ----------------------------------------------------------------------
 
-        return $this->connection->indexSettings($index);
-    }
-
-    //----------------------------------------------------------------------
-    //  Create Index
-    //----------------------------------------------------------------------
-    public function create($index, Closure $callback)
+    public function table($table, Closure $callback): void
     {
-        $this->builder('buildIndexCreate', tap(new IndexBlueprint($index), function ($blueprint) use ($callback) {
+        $index = $this->parseIndexName($table);
+        $this->build(tap($this->createBlueprint($index), function (Blueprint $blueprint) use ($callback) {
+            $blueprint->update();
             $callback($blueprint);
         }));
     }
 
-    public function createIfNotExists($index, Closure $callback)
+    /**
+     * {@inheritdoc}
+     */
+    public function create($table, ?Closure $callback = null): void
     {
-        if ($this->hasIndex($index)) {
-            return true;
-        }
-        $this->builder('buildIndexCreate', tap(new IndexBlueprint($index), function ($blueprint) use ($callback) {
-            $callback($blueprint);
+        $index = $this->parseIndexName($table);
+        $this->build(tap($this->createBlueprint($index), function ($blueprint) use ($callback) {
+            $blueprint->create();
+
+            if ($callback) {
+                $callback($blueprint);
+            }
         }));
     }
 
-    //----------------------------------------------------------------------
-    // Reindex
-    //----------------------------------------------------------------------
-
-    public function reIndex($from, $to)
+    /**
+     * Create a new table if it doesn't already exist on the schema.
+     */
+    public function createIfNotExists(string $table, ?Closure $callback = null): void
     {
-        return $this->connection->reIndex($from, $to);
-    }
+        $index = $this->parseIndexName($table);
+        $this->build(tap($this->createBlueprint($index), function (Blueprint $blueprint) use ($callback) {
+            $blueprint->createIfNotExists();
 
-
-    //----------------------------------------------------------------------
-    // Modify Index
-    //----------------------------------------------------------------------
-
-    public function modify($index, Closure $callback)
-    {
-        $this->builder('buildIndexModify', tap(new IndexBlueprint($index), function ($blueprint) use ($callback) {
-            $callback($blueprint);
+            if ($callback) {
+                $callback($blueprint);
+            }
         }));
     }
 
-    //----------------------------------------------------------------------
-    // Delete Index
-    //----------------------------------------------------------------------
-
-    public function delete($index)
+    /**
+     * {@inheritdoc}
+     */
+    public function drop($table)
     {
-        $this->connection->setIndex($index);
-
-        return $this->connection->indexDelete();
+        $index = $this->parseIndexName($table);
+        $this->connection->dropIndex($index);
     }
 
-    public function deleteIfExists($index)
+    /**
+     * {@inheritdoc}
+     */
+    public function dropIfExists($table): void
     {
-        $this->connection->setIndex($index);
         try {
-            return $this->connection->indexDelete($index);
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
-    //----------------------------------------------------------------------
-    // Index template
-    //----------------------------------------------------------------------
-    public function createTemplate($name, Closure $callback)
-    {
-
-    }
-
-
-    //----------------------------------------------------------------------
-    // Analysers
-    //----------------------------------------------------------------------
-
-    public function setAnalyser($index, Closure $callback)
-    {
-        $this->analyzerBuilder('buildIndexAnalyzerSettings', tap(new AnalyzerBlueprint($index), function ($blueprint) use ($callback) {
-            $callback($blueprint);
-        }));
-    }
-
-
-
-    //----------------------------------------------------------------------
-    // Index ops
-    //----------------------------------------------------------------------
-
-    public function hasField($index, $field)
-    {
-        $mappings = $this->getMappings($index);
-        $data = $mappings->data;
-        try {
-            $props = $data[$index]['mappings']['properties'];
-            $props = $this->_flattenFields($props);
-            $fileList = $this->_sanitizeFlatFields($props);
-
-            if (in_array($field, $fileList)) {
-                return true;
+            if ($this->hasTable($table)) {
+                $this->drop($table);
             }
-        } catch (Exception $e) {
+        } catch (ClientResponseException|MissingParameterException|ServerResponseException $e) {
+        }
+    }
 
+    // ----------------------------------------------------------------------
+    // ES Methods and Aliases
+    // ----------------------------------------------------------------------
+
+    public function index($table, Closure $callback): void
+    {
+        $this->table($table, $callback);
+    }
+
+    /**
+     *  Includes settings and mappings
+     */
+    public function getIndex(string|array $indices = '*'): array
+    {
+        $params = ['index' => $this->parseIndexName($indices)];
+
+        return $this->connection->elastic()->indices()->get($params)->asArray();
+    }
+
+    /**
+     * Returns the list of indices.
+     */
+    public function getIndices(): array
+    {
+        return $this->getIndex();
+    }
+
+    public function getIndicesSummary(): array
+    {
+        return $this->getTables();
+    }
+
+    /**
+     *  Returns the mapping details about your indices.
+     */
+    public function getFieldMapping(string $table, string $column, $raw = false): array
+    {
+        $mapping = $this->connection->getFieldMapping($this->parseIndexName($table), $column);
+        if ($raw) {
+            return $mapping;
+        }
+        $mapping = reset($mapping);
+
+        return Sanitizer::flattenFieldMapping($mapping);
+    }
+
+    /**
+     * Returns the mapping details about your indices.
+     */
+    public function getFieldsMapping(string $table, $raw = false): array
+    {
+        return $this->getFieldMapping($table, '*', $raw);
+    }
+
+    /**
+     * Returns the mapping details about your indices.
+     */
+    public function getMappings(string|array $table, $raw = false): array
+    {
+        $index = $this->parseIndexName($table);
+        $params = ['index' => Arr::wrap($index)];
+
+        $mappings = $this->connection->elastic()->indices()->getMapping($params)->asArray();
+        if ($raw) {
+            return $mappings;
+        }
+        $mappings = reset($mappings);
+        $mappings = Arr::get($mappings, 'mappings');
+
+        return Sanitizer::flattenMappingProperties($mappings);
+    }
+
+    /**
+     * Shows you the currently configured settings for one or more indices
+     */
+    public function getSettings(string|array $table): array
+    {
+        $index = $this->parseIndexName($table);
+        $params = ['index' => Arr::wrap($index)];
+
+        return $this->connection->elastic()->indices()->getSettings($params)->asArray();
+    }
+
+    /**
+     * Replaces `hasIndex` method.
+     */
+    public function indexExists($index): bool
+    {
+        return $this->hasTable($index);
+    }
+
+    /**
+     * Run a reindex statement against the database.
+     */
+    public function reindex($from, $to, $options = []): array
+    {
+        $from = $this->parseIndexName($from);
+        $to = $this->parseIndexName($to);
+        $params = [
+            'body' => [
+                'source' => ['index' => $from],
+                'dest' => ['index' => $to],
+            ],
+        ];
+        $params = [...$params, ...$options];
+
+        return $this->connection->elastic()->reindex($params)->asArray();
+    }
+
+    public function indices(): Indices
+    {
+        return $this->connection->indices();
+    }
+
+    // ----------------------------------------------------------------------
+    // V4 Backwards Compatibility
+    // ----------------------------------------------------------------------
+
+    /**
+     * Run a reindex statement against the database.
+     */
+    public function modify($index, Closure $callback): void
+    {
+        $this->table($index, $callback);
+    }
+
+    public function delete($index): void
+    {
+        $this->drop($index);
+    }
+
+    public function deleteIfExists($index): void
+    {
+        $this->dropIfExists($index);
+    }
+
+    public function setAnalyser($index, Closure $callback): void
+    {
+        $this->table($index, $callback);
+    }
+
+    public function hasField($index, $field): bool
+    {
+        return $this->hasColumn($index, $field);
+    }
+
+    public function hasFields($index, $fields): bool
+    {
+        return $this->hasColumns($index, $fields);
+    }
+
+    // ----------------------------------------------------------------------
+    // Protected Methods
+    // ----------------------------------------------------------------------
+
+    protected function parseIndexName(string|array $index): string|array
+    {
+        if (is_array($index)) {
+            return collect($index)->map(function ($item) {
+                return $this->attachPrefix($item);
+            })->toArray();
         }
 
-        return false;
-
+        return $this->attachPrefix($index);
     }
 
-    public function hasFields($index, array $fields)
+    protected function attachPrefix(string $index): string
     {
-        $mappings = $this->getMappings($index);
-        $data = $mappings->data;
-        try {
-            $props = $data[$index]['mappings']['properties'];
-            $props = $this->_flattenFields($props);
-            $fileList = $this->_sanitizeFlatFields($props);
-            $allFound = true;
-            foreach ($fields as $field) {
-                if (!in_array($field, $fileList)) {
-                    $allFound = false;
-                }
-            }
-
-            return $allFound;
-        } catch (Exception $e) {
-            return false;
+        $prefix = $this->connection->getIndexPrefix();
+        if ($prefix && ! str_starts_with($index, $prefix)) {
+            $index = $prefix.$index;
         }
 
+        return $index;
     }
 
-    public function hasIndex($index)
+    // ----------------------------------------------------------------------
+    // Disabled
+    // ----------------------------------------------------------------------
+
+    /**
+     * @throws LogicException
+     */
+    public function hasIndex($table, $index, $type = null)
     {
-        return $this->connection->indexExists($index);
-    }
-
-
-    //----------------------------------------------------------------------
-    // Manual
-    //----------------------------------------------------------------------
-
-    public function dsl($method, $params)
-    {
-        return $this->connection->indicesDsl($method, $params);
-    }
-
-    //----------------------------------------------------------------------
-    // Helpers
-    //----------------------------------------------------------------------
-    function flatten($array, $prefix = '')
-    {
-        $result = array();
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                $result = $result + flatten($value, $prefix.$key.'.');
-            } else {
-                $result[$prefix.$key] = $value;
-            }
-        }
-
-        return $result;
-    }
-
-    private function _flattenFields($array, $prefix = '')
-    {
-
-        $result = [];
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                $result = $result + $this->_flattenFields($value, $prefix.$key.'.');
-            } else {
-                $result[$prefix.$key] = $value;
-            }
-        }
-
-        return $result;
-    }
-
-    private function _sanitizeFlatFields($flatFields)
-    {
-        $fields = [];
-        if ($flatFields) {
-            foreach ($flatFields as $flatField => $value) {
-                $parts = explode('.', $flatField);
-                $field = $parts[0];
-                array_walk($parts, function ($v, $k) use (&$field, $parts) {
-                    if ($v == 'properties') {
-                        $field .= '.'.$parts[$k + 1];
-
-                    }
-                });
-                $fields[] = $field;
-            }
-        }
-
-        return $fields;
-    }
-
-
-    //----------------------------------------------------------------------
-    // Builders
-    //----------------------------------------------------------------------
-    protected function builder($builder, IndexBlueprint $blueprint)
-    {
-        $blueprint->{$builder}($this->connection);
-    }
-
-    protected function analyzerBuilder($builder, AnalyzerBlueprint $blueprint)
-    {
-        $blueprint->{$builder}($this->connection);
+        throw new LogicException('Elasticsearch does not support index types. Please use the `hasTable` method instead.');
     }
 }
