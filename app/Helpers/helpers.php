@@ -16,6 +16,10 @@ function translations(string $json): array
 
 function geoip_country_name_by_name($ip)
 {
-    return 'TODO GEOIP';
+    return 'TODO GEOIP '.__FILE__;
+}
+function geoip_country_code_by_name($ip)
+{
+    return 'TODO GEOIP '.__FILE__;
 }
 ?>
