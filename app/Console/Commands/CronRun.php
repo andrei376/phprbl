@@ -600,7 +600,7 @@ class CronRun extends Command
         $time_start = microtime(true);
 
         DB::enableQueryLog();
-        DB::connection('mongodb')->enableQueryLog();
+        //DB::connection('mongodb')->enableQueryLog();
 
         $whois = !$this->cleanupWhois();
 
@@ -616,9 +616,9 @@ class CronRun extends Command
             $time = round($time_end - $time_start, 4);
 
             $logs = DB::getQueryLog();
-            $mongoLogs = DB::connection('mongodb')->getQueryLog();
+            //$mongoLogs = DB::connection('mongodb')->getQueryLog();
 
-            $this->line("MONGO LOG: ".print_r($mongoLogs, true));
+            //$this->line("MONGO LOG: ".print_r($mongoLogs, true));
             $this->line("SQL LOG: ".print_r($logs, true));
 
             $this->line(__('[:method took :time seconds]', ['time' => $time, 'method' => __METHOD__]));
