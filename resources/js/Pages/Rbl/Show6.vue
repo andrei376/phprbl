@@ -102,12 +102,12 @@
                                 <tbody>
                                     <tr></tr>
                                     <tr class="text-success">
-                                        <td>new/current</td>
-                                        <td>{{ whoisData.date }}</td>
-                                        <td>{{ whoisData.inetnum }}</td>
-                                        <td>{{ whoisData.netname }}</td>
-                                        <td>{{ whoisData.country }}</td>
-                                        <td>{{ whoisData.orgname }}</td>
+                                        <td class="text-success">new/current</td>
+                                        <td class="text-success">{{ whoisData.date }}</td>
+                                        <td class="text-success">{{ whoisData.inetnum }}</td>
+                                        <td class="text-success">{{ whoisData.netname }}</td>
+                                        <td class="text-success">{{ whoisData.country }}</td>
+                                        <td class="text-success">{{ whoisData.orgname }}</td>
                                     </tr>
                                     <tr>
                                         <td :class="checkWhois() ? 'text-success' : 'text-danger'">

@@ -168,6 +168,13 @@ class RblController extends Controller
         $resMsg .= $msgIp;
 
         //return Redirect::back();
+        // return Inertia::render('Rbl/New4', [
+        //     'lists' => Rbl4::getLists(),
+        //     'flash' => ['msg_success' => __('Information saved.')],
+        //     'resMsg' => $resMsg
+        // ]);
+
+
         return response()->json(
             [
                 'component' => 'Rbl/New4',
@@ -185,7 +192,8 @@ class RblController extends Controller
                     },
                     'flash' => ['msg_success' => __('Information saved.')],
                     'resMsg' => $resMsg
-                ]
+                ],
+                'url' => url()->previous()
             ],
             200,
             ['X-Inertia' => true]
@@ -274,6 +282,13 @@ class RblController extends Controller
             "\n"
         );*/
 
+        // return Inertia::json('Rbl/New6', [
+        //     'lists' => Rbl6::getLists(),
+        //     'flash' => ['msg_success' => __('Information saved.')],
+        //     'resMsg' => $resMsg
+        // ]);
+
+
         return response()->json(
             [
                 'component' => 'Rbl/New6',
@@ -291,11 +306,13 @@ class RblController extends Controller
                     },
                     'flash' => ['msg_success' => __('Information saved.')],
                     'resMsg' => $resMsg
-                ]
-            ],
+                ],
+                'url' => url()->previous()
+        ],
             200,
             ['X-Inertia' => true]
         );
+
     }
 
     public function whois(): Response
