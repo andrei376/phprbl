@@ -320,6 +320,16 @@ class RblController extends Controller
         return Inertia::render('Rbl/Whois');
     }
 
+    public function as(): Response
+    {
+        return Inertia::render('Rbl/As');
+    }
+
+    public function findas(): Response
+    {
+        return Inertia::render('Rbl/Findas');
+    }
+
     public function lookup(): Response
     {
         return Inertia::render('Rbl/Lookup');
@@ -1176,6 +1186,61 @@ class RblController extends Controller
         $whois = new WhoisLib();
 
         $result = $whois->searchCache($searchIp, true);
+
+        return Redirect::back()->with('flashData.result', $result);
+    }
+
+    public function getfindAs(Request $request): RedirectResponse
+    {
+        //
+        $validated = $request->validate([
+            'ip' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $c4 = new Rbl4();
+                    $c6 = new Rbl6();
+
+                    $result = $c4->isIp($value);
+                    $result6 = $c6->isIp($value);
+
+                    if (!$result && !$result6) {
+                        $fail(__('Invalid ip.'));
+                        return false;
+                    }
+
+                    return true;
+                }
+            ]
+        ]);
+
+        //dump($validated);
+
+        $searchIp = $validated['ip'];
+
+        $whois = new WhoisLib();
+
+        $result = $whois->searchRipeGetAs($searchIp);
+
+        return Redirect::back()->with('flashData.result', $result);
+    }
+
+    public function getAs(Request $request): RedirectResponse
+    {
+        //
+        $validated = $request->validate([
+            'asn' => [
+                'required',
+                'gt:0'
+            ]
+        ]);
+
+        // dump($validated);
+
+        $searchAs = $validated['asn'];
+
+        $whois = new WhoisLib();
+
+        $result = $whois->searchRipeAs($searchAs);
 
         return Redirect::back()->with('flashData.result', $result);
     }

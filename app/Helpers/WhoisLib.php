@@ -126,6 +126,143 @@ class WhoisLib
         return $data;
     }
 
+    public function searchRipeAs($asn): array
+    {
+        // dump('GET AS IP '.$asn);
+
+        $url = 'https://stat.ripe.net/data/announced-prefixes/data.json?resource=' . $asn;
+
+        $http = Http::withOptions([
+            'allow_redirects' => true,
+            'verify' => false
+        ]);
+
+        $emptyResult = [];
+
+        try {
+            $response = $http->get($url);
+        } catch (Exception $e) {
+            // Log::error('get host rdap.arin.net=' . gethostbyname('rdap.arin.net'));
+            // Log::error('get host google.com=' . gethostbyname('google.com'));
+            // Log::error('get host rdap.afrinic.net=' . gethostbyname('rdap.afrinic.net'));
+
+            Log::error(__("[EXCEPTION! querying :asn, url: :url, exception:\n :exception]", [
+                'asn' => $asn,
+                'url' => $url,
+                'exception' => $e->getMessage()
+            ]));
+            return $emptyResult;
+        }
+
+        if (!$response->successful()) {
+            Log::error(__("[ERROR! querying :asn, url: :url, http status: :status, response:\n :resp \nbody: \n :body]", [
+                'asn' => $asn,
+                'url' => $response->effectiveUri(),
+                'status' => $response->status(),
+                'resp' => print_r($response->headers(), true),
+                'body' => print_r($response->body(), true)
+            ]));
+            return $emptyResult;
+        }
+
+        //Log::debug('status='. $response->status());
+
+        $data = $response->json();
+
+        // dump($data);
+
+        if (!isset($data['data']['prefixes'])) {
+            Log::error(__("[ERROR! querying :asn, url: :url, http status: :status, response:\n :resp \nbody: \n :body]", [
+                'asn' => $asn,
+                'url' => $response->effectiveUri(),
+                'status' => $response->status(),
+                'resp' => print_r($response->headers(), true),
+                'body' => print_r($response->body(), true)
+            ]));
+            return $emptyResult;
+        }
+        //dd();
+
+        $prefixes = [];
+
+        foreach ($data['data']['prefixes'] as $prefix) {
+            $prefixes[] = $prefix['prefix'];
+        }
+
+        $result = $prefixes;
+
+        return $result;
+    }
+
+
+    public function searchRipeGetAs($ip): array
+    {
+        // dump('GET AS IP '.$asn);
+
+        $url = 'https://stat.ripe.net/data/network-info/data.json?resource=' . $ip;
+
+        $http = Http::withOptions([
+            'allow_redirects' => true,
+            'verify' => false
+        ]);
+
+        $emptyResult = [];
+
+        try {
+            $response = $http->get($url);
+        } catch (Exception $e) {
+            // Log::error('get host rdap.arin.net=' . gethostbyname('rdap.arin.net'));
+            // Log::error('get host google.com=' . gethostbyname('google.com'));
+            // Log::error('get host rdap.afrinic.net=' . gethostbyname('rdap.afrinic.net'));
+
+            Log::error(__("[EXCEPTION! querying :ip, url: :url, exception:\n :exception]", [
+                'ip' => $ip,
+                'url' => $url,
+                'exception' => $e->getMessage()
+            ]));
+            return $emptyResult;
+        }
+
+        if (!$response->successful()) {
+            Log::error(__("[ERROR! querying :ip, url: :url, http status: :status, response:\n :resp \nbody: \n :body]", [
+                'ip' => $ip,
+                'url' => $response->effectiveUri(),
+                'status' => $response->status(),
+                'resp' => print_r($response->headers(), true),
+                'body' => print_r($response->body(), true)
+            ]));
+            return $emptyResult;
+        }
+
+        //Log::debug('status='. $response->status());
+
+        $data = $response->json();
+
+        // dump($data);
+
+        if (!isset($data['data']['asns'])) {
+            Log::error(__("[ERROR! querying :ip, url: :url, http status: :status, response:\n :resp \nbody: \n :body]", [
+                'ip' => $ip,
+                'url' => $response->effectiveUri(),
+                'status' => $response->status(),
+                'resp' => print_r($response->headers(), true),
+                'body' => print_r($response->body(), true)
+            ]));
+            return $emptyResult;
+        }
+        //dd();
+
+        $prefixes = [];
+
+        foreach ($data['data']['asns'] as $prefix) {
+            $prefixes[] = $prefix;
+        }
+
+        $result = $prefixes;
+
+        return $result;
+    }
+
     public function searchArin($ip): array
     {
         //dump('WHOIS SEARCH '.$ip);

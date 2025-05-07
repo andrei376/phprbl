@@ -99,6 +99,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/whois', [RblController::class, 'whois'])->name('rbl.whois');
     Route::post('/getWhois', [RblController::class, 'getWhois'])->name('rbl.getWhois');
 
+    Route::get('/as', [RblController::class, 'as'])->name('rbl.as');
+    Route::post('/getAs', [RblController::class, 'getAs'])->name('rbl.getAs');
+
+    Route::get('/findas', [RblController::class, 'findas'])->name('rbl.findas');
+    Route::post('/getfindAs', [RblController::class, 'getfindAs'])->name('rbl.getfindAs');
+
     Route::get('/lookup', [RblController::class, 'lookup'])->name('rbl.lookup');
     Route::post('/getLookup', [RblController::class, 'getLookup'])->name('rbl.getLookup');
 

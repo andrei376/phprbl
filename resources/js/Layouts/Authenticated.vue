@@ -47,6 +47,14 @@
                                     {{ this.__('WHOIS') }}
                                 </breeze-nav-link>
 
+                                <breeze-nav-link :href="this.route('rbl.as')" class="text-decoration-none" :active="this.route().current('rbl.as')">
+                                    {{ this.__('AS IP') }}
+                                </breeze-nav-link>
+
+                                <breeze-nav-link :href="this.route('rbl.findas')" class="text-decoration-none" :active="this.route().current('rbl.findas')">
+                                    {{ this.__('Find AS') }}
+                                </breeze-nav-link>
+
                                 <breeze-nav-link :href="this.route('setup.index')" class="text-decoration-none" :active="this.route().current('setup.index')">
                                     {{ this.__('SETUP') }}
                                 </breeze-nav-link>
@@ -127,6 +135,14 @@
 
                         <breeze-responsive-nav-link :href="this.route('rbl.whois')" class="text-decoration-none" :active="this.route().current('rbl.whois')">
                             {{ this.__('WHOIS') }}
+                        </breeze-responsive-nav-link>
+
+                        <breeze-responsive-nav-link :href="this.route('rbl.as')" class="text-decoration-none" :active="this.route().current('rbl.as')">
+                            {{ this.__('AS IP') }}
+                        </breeze-responsive-nav-link>
+
+                        <breeze-responsive-nav-link :href="this.route('rbl.findas')" class="text-decoration-none" :active="this.route().current('rbl.findas')">
+                            {{ this.__('Find AS') }}
                         </breeze-responsive-nav-link>
 
                         <breeze-responsive-nav-link :href="this.route('setup.index')" class="text-decoration-none" :active="this.route().current('setup.index')">
