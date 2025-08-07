@@ -11,6 +11,7 @@
         "php": "^7.3|^8.1",
         "ext-json": "*",
         "fruitcake/laravel-cors": "*",
+        "geoip2/geoip2": "3.2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "inertiajs/inertia-laravel": "v2.0.2",
         "laravel/framework": "^v10.48.29",

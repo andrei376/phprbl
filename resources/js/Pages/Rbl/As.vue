@@ -20,8 +20,10 @@
                             </div>
                         </form>
 
-                        <div v-for="prefix in flashData.result">
-                            {{ prefix }}
+                        <div v-if="flashData">
+                            <div v-for="prefix in flashData.result">
+                                {{ prefix }}
+                            </div>
                         </div>
 
                         <pre v-if="flashData">{{ flashData.result }}</pre>

@@ -15,7 +15,7 @@
                             <div class="flex items-center justify-end mt-4">
                                 <button type="submit" @click="$event.target.blur();" class="btn btn-success" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                                     <span v-if="form.processing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                    {{ this.__('Whois') }}
+                                    {{ this.__('Find AS') }}
                                 </button>
                             </div>
                         </form>
