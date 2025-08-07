@@ -20,7 +20,7 @@ function translations(string $json): array
 function geoip_country_name_by_name($ip)
 {
     //The geoip_country_name_by_name() function will return the full country name corresponding to a hostname or an IP address.
-    $filename = '/var/lib/GeoIP/GeoIP2-City.mmdb';
+    $filename = '/var/lib/GeoIP/GeoLite2-City.mmdb';
 
     if (file_exists($filename)) {
         $cityDbReader = new Reader($filename);
@@ -35,7 +35,7 @@ function geoip_country_name_by_name($ip)
 function geoip_country_code_by_name($ip)
 {
     //The geoip_country_code_by_name() function will return the two letter country code corresponding to a hostname or an IP address.
-    $filename = '/var/lib/GeoIP/GeoIP2-City.mmdb';
+    $filename = '/var/lib/GeoIP/GeoLite2-City.mmdb';
 
     if (file_exists($filename)) {
         $cityDbReader = new Reader($filename);
