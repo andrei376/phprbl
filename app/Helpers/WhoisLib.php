@@ -396,12 +396,13 @@ class WhoisLib
         } catch (Exception $e) {
             Log::error(
                 __METHOD__.
-                ' error parsing whois data: '.$e->getMessage().
+                'search ip='.$ip.
+                ', error parsing whois data: '.$e->getMessage().
                 ", line=".$e->getLine().
                 "\n data=".
                 print_r($data, true).
                 "\n"
-            );            
+            );
             //return $emptyResult;
         }
 
