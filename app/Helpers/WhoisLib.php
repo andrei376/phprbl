@@ -376,21 +376,33 @@ class WhoisLib
             $orgname = $data['remarks'][0]['description'][0];
         }
 
-        foreach ($data['entities'] as $entity) {
-            if (isset($entity['vcardArray'])) {
-                foreach ($entity['vcardArray'][1] as $row) {
-                    if ($row[0] == 'fn') {
-                        $orgname = $row[3];
-                    }
+        try {
+            foreach ($data['entities'] as $entity) {
+                if (isset($entity['vcardArray'])) {
+                    foreach ($entity['vcardArray'][1] as $row) {
+                        if ($row[0] == 'fn') {
+                            $orgname = $row[3];
+                        }
 
-                    if ($row[0] == 'adr' && !isset($data['country'])) {
-                        if (!isset($row[1]['label'])) {
-                            $country = array_pop($row[3]);
+                        if ($row[0] == 'adr' && !isset($data['country'])) {
+                            if (!isset($row[1]['label'])) {
+                                $country = array_pop($row[3]);
+                            }
                         }
                     }
+                    break;
                 }
-                break;
             }
+        } catch (Exception $e) {
+            Log::error(
+                __METHOD__.
+                ' error parsing whois data: '.$e->getMessage().
+                ", line=".$e->getLine().
+                "\n data=".
+                print_r($data, true).
+                "\n"
+            );            
+            //return $emptyResult;
         }
 
         $country = empty($country) ? 'US' : strtoupper($country);
