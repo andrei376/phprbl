@@ -1031,8 +1031,11 @@ class CronRun extends Command
         foreach ($lists as $list) {
             $model = app('App\Models\\' . $list->name);
 
-            //special case for white
-            if (stripos($list->name, 'white') !== false) {
+            //special case for white and black
+            if (
+                stripos($list->name, 'white') !== false ||
+                stripos($list->name, 'black') !== false                
+            ) {
                 $toCheck = $model::
                     where('last_check', '<', DB::raw('DATE_SUB(NOW(),INTERVAL 7 MONTH)'))
                     ->where('active', 1)
